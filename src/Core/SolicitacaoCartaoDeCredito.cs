@@ -6,20 +6,20 @@ namespace Core.CartaoDeCredito.Domain
 {
     public class SolicitacaoCartaoDeCredito
     {
-        public readonly ValidationResult validationResult;
-        public string Nome { get; set; }
-        public string Cpf { get; set; }
-        public string Rg { get; set; }
-        public string Profissao { get; set; }
-        public decimal Renda { get; set; }
-        public string NomeNoCartao { get; set; }
+        public ValidationResult validationResult { get; }
+        public string Nome { get; }
+        public string Cpf { get; }
+        public string Rg { get; }
+        public string Profissao { get; }
+        public decimal Renda { get; }
+        public string NomeNoCartao { get; }
 
 
-        public SolicitacaoCartaoDeCredito(string nome, 
-            string cpf, 
-            string rg, 
-            string profissao, 
-            decimal renda, 
+        public SolicitacaoCartaoDeCredito(string nome,
+            string cpf,
+            string rg,
+            string profissao,
+            decimal renda,
             string nomeNoCartao)
         {
             Nome = nome;
