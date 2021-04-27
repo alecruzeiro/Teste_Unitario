@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Core", "1 - Core", "{3E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Tests", "2 - Tests", "{CBFE269F-44BA-4A7C-996B-A8F4532855D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.CartaoDeCredito.DomainTests", "Tests\Core.CartaoDeCredito.Domain\Core.CartaoDeCredito.DomainTests.csproj", "{05478E67-D9DC-4FC3-A4D1-58F6370CD35D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.CartaoDeCredito.Domain", "Tests\Core.CartaoDeCredito.Domain\Tests.CartaoDeCredito.Domain.csproj", "{05478E67-D9DC-4FC3-A4D1-58F6370CD35D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Solution Items", "3 - Solution Items", "{5805038F-C0A7-4B48-AB90-C7566ACE853A}"
 	ProjectSection(SolutionItems) = preProject
