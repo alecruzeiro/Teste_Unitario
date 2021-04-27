@@ -7,7 +7,7 @@
 			1.2 - Se o cpf for inválido ou vazio, uma mensagem deverá retornar "Insira um cpf válido"
 			1.3 - Se o RG for vazio, uma mensagem deverá retornar "Insira um RG válido"
 			1.4 - Se a profissão for vazia, uma mensagem deverá retornar "Insira uma profissão válida"
-			1.5 - Se a renda for vazia, uma mensagem deverá retornar "Insira uma renda válido"
+			1.5 - Se a renda for vazia, uma mensagem deverá retornar "Insira uma renda válida"
 			1.6 - Caso a renda seja menor que R$:800,00, deverá retornar "Renda deve ser maior que R$:800,00"  
 			1.7 - Caso o cpf já esteja cadastrado na base deverá retornar "Cpf já cadastrado"  
 		2 - Caso a renda seja maior que R$:800,00 e menor que R$:2500,00, um cartão do tipo Gold deverá ser ofertado

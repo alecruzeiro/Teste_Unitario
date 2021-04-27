@@ -39,6 +39,25 @@ namespace Core.CartaoDeCredito.Domain
 
         public SolicitacaoCartaoDeCreditoValidation()
         {
+            RuleFor(s => s.Nome)
+                .NotEmpty()
+                .WithMessage("Insira um nome válido");
+
+            RuleFor(s => s.Cpf)
+                .NotEmpty()
+                .WithMessage("Insira um cpf válido");
+
+            RuleFor(s => s.Rg)
+                .NotEmpty()
+                .WithMessage("Insira um RG válido");
+
+            RuleFor(s => s.Profissao)
+                .NotEmpty()
+                .WithMessage("Insira uma profissão válida");
+
+            RuleFor(s => s.Renda)
+                .GreaterThan(0)
+                .WithMessage("Insira uma renda válida");
         }
     }
 }
