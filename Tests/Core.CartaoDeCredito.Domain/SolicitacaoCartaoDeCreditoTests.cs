@@ -52,9 +52,9 @@ namespace Tests.CartaoDeCredito.Domain
             Assert.Contains(SolicitacaoCartaoDeCreditoValidation.Erro_Msg[mensagem], solicitacaoCartaoDeCredito.validationResult.Errors.Select(e => e.ErrorMessage));
         }
 
-        [Fact(DisplayName = "Solicitar cartão com cpf não existente na base")]
+        [Fact(DisplayName = "Solicitar cartão renda entre 800 e 2500")]
         [Trait("Categoria", "Cartão de Crédito - Solicitação")]
-        public void CartaoDeCredito_SolicitarCartaoComCpfNaoExistente_DeveCriarSolicitacaoComSucesso()
+        public void CartaoDeCredito_SolicitarCartaoComRendaDeGold_DeveRetornarSolicitacaoGold()
         {
             //Arrange, Act
             var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCredito("Teste Teste",
@@ -65,7 +65,7 @@ namespace Tests.CartaoDeCredito.Domain
                 "Teste Plástico");
 
             //Assert
-            Assert.True(solicitacaoCartaoDeCredito.validationResult.IsValid);
+            Assert.True(solicitacaoCartaoDeCredito.TipoCartaoDisponivel == ETipoCartao.Gold);
         }
 
     }
