@@ -5,13 +5,13 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.CartaoDeCredito.Domain", "src\Core\Core.CartaoDeCredito.Domain.csproj", "{CFAA16F4-599B-4BFD-B705-6072CE38BE35}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{3E71C6ED-04CC-4E72-8F01-DDD15919E466}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Core", "1 - Core", "{3E71C6ED-04CC-4E72-8F01-DDD15919E466}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CBFE269F-44BA-4A7C-996B-A8F4532855D2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Tests", "2 - Tests", "{CBFE269F-44BA-4A7C-996B-A8F4532855D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.CartaoDeCredito.Domain", "Tests\Core.CartaoDeCredito.Domain\Core.CartaoDeCredito.Domain.csproj", "{05478E67-D9DC-4FC3-A4D1-58F6370CD35D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.CartaoDeCredito.DomainTests", "Tests\Core.CartaoDeCredito.Domain\Core.CartaoDeCredito.DomainTests.csproj", "{05478E67-D9DC-4FC3-A4D1-58F6370CD35D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5805038F-C0A7-4B48-AB90-C7566ACE853A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Solution Items", "3 - Solution Items", "{5805038F-C0A7-4B48-AB90-C7566ACE853A}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
