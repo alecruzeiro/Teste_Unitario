@@ -39,7 +39,6 @@ namespace Core.CartaoDeCredito.Domain
 
         public SolicitacaoCartaoDeCreditoValidation()
         {
-            throw new NotImplementedException();
         }
     }
 }
