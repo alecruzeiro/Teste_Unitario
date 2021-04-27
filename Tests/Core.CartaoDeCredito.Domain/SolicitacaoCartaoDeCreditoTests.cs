@@ -21,5 +21,21 @@ namespace Tests.CartaoDeCredito.Domain
             Assert.True(solicitacaoCartaoDeCredito.validationResult.IsValid);
         }
 
+        [Fact(DisplayName = "Solicitar cartão com dados inválidos")]
+        [Trait("Categoria", "Cartão de Crédito - Solicitação")]
+        public void CartaoDeCredito_SolicitarCartaoComDadosInvalidos_NaoDeveCriarSolicitacaoComSucesso()
+        {
+            //Arrange
+            var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCredito(default,
+                default,
+                default,
+                default,
+                default,
+                default);
+
+            //Act, Assert
+            Assert.False(solicitacaoCartaoDeCredito.validationResult.IsValid);
+        }
+
     }
 }
