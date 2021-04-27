@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using System;
+using System.Collections.Generic;
 
 namespace Core.CartaoDeCredito.Domain
 {
@@ -33,31 +34,45 @@ namespace Core.CartaoDeCredito.Domain
         }
     }
 
-    internal class SolicitacaoCartaoDeCreditoValidation : AbstractValidator<SolicitacaoCartaoDeCredito>
+    public class SolicitacaoCartaoDeCreditoValidation : AbstractValidator<SolicitacaoCartaoDeCredito>
     {
+        private static IReadOnlyDictionary<string, string> _erroMsg => new Dictionary<string, string>()
+        {
+            {"erro_nome", "Insira um nome válido"},
+            {"erro_cpf", "Insira um cpf válido"},
+            {"erro_rg", "Insira um RG válido"},
+            {"erro_profissao", "Insira uma profissão válida"},
+            {"erro_renda", "Insira uma renda válida"},
+            {"erro_nome_cartao", "Insira um nome no cartão válido"},
+        };
 
+        public static IReadOnlyDictionary<string, string> Erro_Msg => _erroMsg;
 
         public SolicitacaoCartaoDeCreditoValidation()
         {
             RuleFor(s => s.Nome)
                 .NotEmpty()
-                .WithMessage("Insira um nome válido");
+                .WithMessage(Erro_Msg["erro_nome"]);
 
             RuleFor(s => s.Cpf)
                 .NotEmpty()
-                .WithMessage("Insira um cpf válido");
+                .WithMessage(Erro_Msg["erro_cpf"]);
 
             RuleFor(s => s.Rg)
                 .NotEmpty()
-                .WithMessage("Insira um RG válido");
+                .WithMessage(Erro_Msg["erro_rg"]);
 
             RuleFor(s => s.Profissao)
                 .NotEmpty()
-                .WithMessage("Insira uma profissão válida");
+                .WithMessage(Erro_Msg["erro_profissao"]);
 
             RuleFor(s => s.Renda)
                 .GreaterThan(0)
-                .WithMessage("Insira uma renda válida");
+                .WithMessage(Erro_Msg["erro_renda"]);
+
+            RuleFor(s => s.NomeNoCartao)
+                .NotEmpty()
+                .WithMessage(Erro_Msg["erro_nome_cartao"]);
         }
     }
 }
