@@ -29,9 +29,14 @@ namespace Core.CartaoDeCredito.Domain
             Profissao = profissao;
             Renda = renda;
             NomeNoCartao = nomeNoCartao;
-            TipoCartaoDisponivel = renda > 800 && renda < 2500 ? ETipoCartao.Gold : ETipoCartao.Platinum;
+            TipoCartaoDisponivel = TipoDeCartaoPorRenda(renda);
 
             validationResult = new SolicitacaoCartaoDeCreditoValidation().Validate(this);
+        }
+
+        private ETipoCartao TipoDeCartaoPorRenda(decimal renda)
+        {
+            return renda > 800 && renda < 2500 ? ETipoCartao.Gold : ETipoCartao.Platinum;
         }
     }
 
