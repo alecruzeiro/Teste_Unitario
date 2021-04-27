@@ -1,4 +1,5 @@
 ﻿using Core.CartaoDeCredito.Domain;
+using Core.CartaoDeCredito.Domain.Interface;
 using System.Linq;
 using Xunit;
 
@@ -10,7 +11,7 @@ namespace Tests.CartaoDeCredito.Domain
         [Trait("Categoria", "Cartão de Crédito - Solicitação")]
         public void CartaoDeCredito_SolicitarCartaoComDadosValidos_DeveCriarSolicitacaoComSucesso()
         {
-            //Arrange
+            //Arrange, Act
             var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCredito("Teste Teste",
                 "01234567890",
                 "1234567890",
@@ -18,7 +19,7 @@ namespace Tests.CartaoDeCredito.Domain
                 2000m,
                 "Teste Plástico");
 
-            //Act, Assert
+            //Assert
             Assert.True(solicitacaoCartaoDeCredito.validationResult.IsValid);
         }
 
@@ -38,7 +39,7 @@ namespace Tests.CartaoDeCredito.Domain
             string nomeNoCartao,
             string mensagem)
         {
-            //Arrange
+            //Arrange, Act
             var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCredito(nome,
                 cpf,
                 rg,
@@ -46,9 +47,25 @@ namespace Tests.CartaoDeCredito.Domain
                 renda,
                 nomeNoCartao);
 
-            //Act, Assert
+            //Assert
             Assert.False(solicitacaoCartaoDeCredito.validationResult.IsValid);
             Assert.Contains(SolicitacaoCartaoDeCreditoValidation.Erro_Msg[mensagem], solicitacaoCartaoDeCredito.validationResult.Errors.Select(e => e.ErrorMessage));
+        }
+
+        [Fact(DisplayName = "Solicitar cartão com cpf não existente na base")]
+        [Trait("Categoria", "Cartão de Crédito - Solicitação")]
+        public void CartaoDeCredito_SolicitarCartaoComCpfNaoExistente_DeveCriarSolicitacaoComSucesso()
+        {
+            //Arrange, Act
+            var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCredito("Teste Teste",
+                "01234567890",
+                "1234567890",
+                "Analista de Sistemas",
+                2000m,
+                "Teste Plástico");
+
+            //Assert
+            Assert.True(solicitacaoCartaoDeCredito.validationResult.IsValid);
         }
 
     }

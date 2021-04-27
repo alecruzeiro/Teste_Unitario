@@ -20,7 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Core\Core.CartaoDeCredito.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Core\Core.CartaoDeCredito.Domain\Core.CartaoDeCredito.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Core\Core.CartaoDeCredito.Service\Core.CartaoDeCredito.Service.csproj" />
   </ItemGroup>
 
 </Project>
