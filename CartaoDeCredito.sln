@@ -9,7 +9,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{3E71C6ED-0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CBFE269F-44BA-4A7C-996B-A8F4532855D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.CartaoDeCredito.Domain", "Tests\Core.CartaoDeCredito.Domain\Core.CartaoDeCredito.Domain.csproj", "{05478E67-D9DC-4FC3-A4D1-58F6370CD35D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.CartaoDeCredito.Domain", "Tests\Core.CartaoDeCredito.Domain\Core.CartaoDeCredito.Domain.csproj", "{05478E67-D9DC-4FC3-A4D1-58F6370CD35D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5805038F-C0A7-4B48-AB90-C7566ACE853A}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
