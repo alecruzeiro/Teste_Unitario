@@ -51,36 +51,25 @@ namespace Tests.CartaoDeCredito.Domain
             Assert.Contains(SolicitacaoCartaoDeCreditoValidation.Erro_Msg[mensagem], solicitacaoCartaoDeCredito.validationResult.Errors.Select(e => e.ErrorMessage));
         }
 
-        [Fact(DisplayName = "Solicitar cartão renda entre 800 e 2500")]
+        [Theory(DisplayName = "Solicitar cartão de crédito deve retornar cartão esperado")]
         [Trait("Categoria", "Cartão de Crédito - Solicitação")]
-        public void CartaoDeCredito_SolicitarCartaoComRendaDeGold_DeveRetornarSolicitacaoGold()
+        [InlineData(2000, ETipoCartao.Gold)]
+        [InlineData(800, ETipoCartao.Gold)]
+        [InlineData(799, ETipoCartao.Gold)]
+        [InlineData(2500, ETipoCartao.Platinum)]
+        [InlineData(2600, ETipoCartao.Platinum)]
+        public void CartaoDeCredito_SolicitarCartaoComRendaDeGold_DeveRetornarCartaoEsperado(decimal renda, ETipoCartao tipoCartaoEsperado)
         {
             //Arrange, Act
             var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCredito("Teste Teste",
                 "01234567890",
                 "1234567890",
                 "Analista de Sistemas",
-                2000m,
+                renda,
                 "Teste Plástico");
 
             //Assert
-            Assert.True(solicitacaoCartaoDeCredito.TipoCartaoDisponivel == ETipoCartao.Gold);
-        }
-
-        [Fact(DisplayName = "Solicitar cartão renda maior ou igual a 2500")]
-        [Trait("Categoria", "Cartão de Crédito - Solicitação")]
-        public void CartaoDeCredito_SolicitarCartaoComRendaDeGold_DeveRetornarSolicitacaoPlatinum()
-        {
-            //Arrange, Act
-            var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCredito("Teste Teste",
-                "01234567890",
-                "1234567890",
-                "Analista de Sistemas",
-                2600m,
-                "Teste Plástico");
-
-            //Assert
-            Assert.True(solicitacaoCartaoDeCredito.TipoCartaoDisponivel == ETipoCartao.Platinum);
+            Assert.True(solicitacaoCartaoDeCredito.TipoCartaoDisponivel == tipoCartaoEsperado);
         }
 
     }
