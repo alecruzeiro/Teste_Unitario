@@ -1,5 +1,4 @@
 ﻿using Core.CartaoDeCredito.Domain;
-using Core.CartaoDeCredito.Domain.Interface;
 using System.Linq;
 using Xunit;
 
@@ -66,6 +65,22 @@ namespace Tests.CartaoDeCredito.Domain
 
             //Assert
             Assert.True(solicitacaoCartaoDeCredito.TipoCartaoDisponivel == ETipoCartao.Gold);
+        }
+
+        [Fact(DisplayName = "Solicitar cartão renda maior ou igual a 2500")]
+        [Trait("Categoria", "Cartão de Crédito - Solicitação")]
+        public void CartaoDeCredito_SolicitarCartaoComRendaDeGold_DeveRetornarSolicitacaoPlatinum()
+        {
+            //Arrange, Act
+            var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCredito("Teste Teste",
+                "01234567890",
+                "1234567890",
+                "Analista de Sistemas",
+                2600m,
+                "Teste Plástico");
+
+            //Assert
+            Assert.True(solicitacaoCartaoDeCredito.TipoCartaoDisponivel == ETipoCartao.Platinum);
         }
 
     }
