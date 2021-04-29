@@ -19,7 +19,7 @@ namespace Tests.CartaoDeCredito.Domain
                 "Teste Plástico");
 
             //Assert
-            Assert.True(solicitacaoCartaoDeCredito.validationResult.IsValid);
+            Assert.True(solicitacaoCartaoDeCredito.ValidationResult.IsValid);
         }
 
         [Theory(DisplayName = "Solicitar cartão com dados inválidos")]
@@ -47,18 +47,18 @@ namespace Tests.CartaoDeCredito.Domain
                 nomeNoCartao);
 
             //Assert
-            Assert.False(solicitacaoCartaoDeCredito.validationResult.IsValid);
-            Assert.Contains(SolicitacaoCartaoDeCreditoValidation.Erro_Msg[mensagem], solicitacaoCartaoDeCredito.validationResult.Errors.Select(e => e.ErrorMessage));
+            Assert.False(solicitacaoCartaoDeCredito.ValidationResult.IsValid);
+            Assert.Contains(SolicitacaoCartaoDeCreditoValidation.Erro_Msg[mensagem], solicitacaoCartaoDeCredito.ValidationResult.Errors.Select(e => e.ErrorMessage));
         }
 
         [Theory(DisplayName = "Solicitar cartão de crédito deve retornar cartão esperado")]
         [Trait("Categoria", "Cartão de Crédito - Solicitação")]
-        [InlineData(2000, ETipoCartao.Gold)]
         [InlineData(800, ETipoCartao.Gold)]
-        [InlineData(799, ETipoCartao.Gold)]
+        [InlineData(799, null)]
+        [InlineData(2000, ETipoCartao.Gold)]
         [InlineData(2500, ETipoCartao.Platinum)]
         [InlineData(2600, ETipoCartao.Platinum)]
-        public void CartaoDeCredito_SolicitarCartaoComRendaDeGold_DeveRetornarCartaoEsperado(decimal renda, ETipoCartao tipoCartaoEsperado)
+        public void CartaoDeCredito_SolicitarCartaoComRendaDeGold_DeveRetornarCartaoEsperado(decimal renda, ETipoCartao? tipoCartaoEsperado)
         {
             //Arrange, Act
             var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCredito("Teste Teste",
@@ -69,7 +69,7 @@ namespace Tests.CartaoDeCredito.Domain
                 "Teste Plástico");
 
             //Assert
-            Assert.True(solicitacaoCartaoDeCredito.TipoCartaoDisponivel == tipoCartaoEsperado);
+            Assert.Equal(tipoCartaoEsperado, solicitacaoCartaoDeCredito.TipoCartaoDisponivel);
         }
 
     }

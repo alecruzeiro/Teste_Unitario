@@ -7,14 +7,14 @@ namespace Core.CartaoDeCredito.Domain
 {
     public class SolicitacaoCartaoDeCredito
     {
-        public ValidationResult validationResult { get; }
+        public ValidationResult ValidationResult { get; }
         public string Nome { get; }
         public string Cpf { get; }
         public string Rg { get; }
         public string Profissao { get; }
         public decimal Renda { get; }
         public string NomeNoCartao { get; }
-        public ETipoCartao TipoCartaoDisponivel { get; set; }
+        public ETipoCartao? TipoCartaoDisponivel { get; }
 
         public SolicitacaoCartaoDeCredito(string nome,
             string cpf,
@@ -31,12 +31,17 @@ namespace Core.CartaoDeCredito.Domain
             NomeNoCartao = nomeNoCartao;
             TipoCartaoDisponivel = TipoDeCartaoPorRenda(renda);
 
-            validationResult = new SolicitacaoCartaoDeCreditoValidation().Validate(this);
+            ValidationResult = new SolicitacaoCartaoDeCreditoValidation().Validate(this);
         }
 
-        private ETipoCartao TipoDeCartaoPorRenda(decimal renda)
+        private ETipoCartao? TipoDeCartaoPorRenda(decimal renda)
         {
-            return renda > 800 && renda < 2500 ? ETipoCartao.Gold : ETipoCartao.Platinum;
+            if (renda >= 2500m)
+                return ETipoCartao.Platinum;
+            else if (renda >= 800m)
+                return ETipoCartao.Gold;
+
+            return null;
         }
     }
 
