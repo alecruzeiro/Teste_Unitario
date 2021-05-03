@@ -1,4 +1,5 @@
 ﻿using Core.CartaoDeCredito.Domain;
+using System;
 using System.Linq;
 using Xunit;
 
@@ -51,7 +52,7 @@ namespace Tests.CartaoDeCredito.Domain
             Assert.Contains(SolicitacaoCartaoDeCreditoValidation.Erro_Msg[mensagem], solicitacaoCartaoDeCredito.ValidationResult.Errors.Select(e => e.ErrorMessage));
         }
 
-        [Theory(DisplayName = "Solicitar cartão de crédito deve retornar cartão esperado")]
+        [Theory(DisplayName = "Solicitar cartão de crédito com renda acima de 800 reais deve retornar cartão esperado")]
         [Trait("Categoria", "Cartão de Crédito - Solicitação")]
         [InlineData(800, ETipoCartao.Gold)]
         [InlineData(2000, ETipoCartao.Gold)]
@@ -69,6 +70,19 @@ namespace Tests.CartaoDeCredito.Domain
 
             //Assert
             Assert.Equal(tipoCartaoEsperado, solicitacaoCartaoDeCredito.TipoCartaoDisponivel);
+        }
+
+        [Fact(DisplayName = "Solicitar cartão de crédito com renda abaixo de 800 reais deve retornar erro")]
+        [Trait("Categoria", "Cartão de Crédito - Solicitação")]
+        public void CartaoDeCredito_SolicitarCartaoComRendaMenorQue800_DeveRetornarErro()
+        {
+            //Arrange, Act, Assert
+            Assert.Throws<Exception>(() => new SolicitacaoCartaoDeCredito("Teste Teste",
+                "01234567890",
+                "1234567890",
+                "Analista de Sistemas",
+                799,
+                "Teste Plástico"));
         }
     }
 }
