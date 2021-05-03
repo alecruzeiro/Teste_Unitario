@@ -10,6 +10,8 @@ namespace Core.CartaoDeCredito.Domain
         public static string ERRO_RENDA = "Renda abaixo de R$:800,00";
 
         public ValidationResult ValidationResult { get; }
+
+        public Guid Id { get; set; }
         public string Nome { get; }
         public string Cpf { get; }
         public string Rg { get; }
@@ -17,7 +19,7 @@ namespace Core.CartaoDeCredito.Domain
         public decimal Renda { get; }
         public string NomeNoCartao { get; }
         public ETipoCartao? TipoCartaoDisponivel { get; }
-        public bool EnviadoAMesaDeCredito { get; set; }
+        public bool EnviadoParaMesaDeCredito { get; set; }
 
         public SolicitacaoCartaoDeCredito(string nome,
             string cpf,
@@ -35,6 +37,7 @@ namespace Core.CartaoDeCredito.Domain
             TipoCartaoDisponivel = TipoDeCartaoPorRenda(renda);
 
             ValidationResult = new SolicitacaoCartaoDeCreditoValidation().Validate(this);
+            Id = Guid.NewGuid();
         }
 
         private ETipoCartao? TipoDeCartaoPorRenda(decimal renda)

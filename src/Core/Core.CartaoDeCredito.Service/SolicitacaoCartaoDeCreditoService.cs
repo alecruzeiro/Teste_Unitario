@@ -22,7 +22,7 @@ namespace Core.CartaoDeCredito.Service
             _solicitacaoCartaoDeCreditoRepository.CriarSolicitacao(solicitacaoCartaoDeCredito);
 
             var mesaDeCreditoRequest = new MesaDeCreditoRequest(solicitacaoCartaoDeCredito);
-            _mesaDeCreditoService.EnviarParaMesaDeCredito(mesaDeCreditoRequest);
+            solicitacaoCartaoDeCredito.EnviadoParaMesaDeCredito = _mesaDeCreditoService.EnviarParaMesaDeCredito(mesaDeCreditoRequest);
         }
 
         public bool VerificarCpf(string cpf)
