@@ -1,10 +1,11 @@
-﻿using Core.CartaoDeCredito.Domain.Interface;
+﻿using Core.CartaoDeCredito.Domain;
+using Core.CartaoDeCredito.Domain.Interface;
 
 namespace Core.CartaoDeCredito.Repository
 {
     public class SolicitacaoCartaoDeCreditoRepository : ISolicitacaoCartaoDeCreditoRepository
     {
-        public void SolicitarCartao()
+        public void CriarSolicitacao(SolicitacaoCartaoDeCredito solicitacaoCartaoDeCredito)
         {
             throw new System.NotImplementedException();
         }

@@ -3,6 +3,6 @@
     public interface ISolicitacaoCartaoDeCreditoRepository
     {
         public bool VerificarCpf(string cpf);
-        public void SolicitarCartao();
+        public void CriarSolicitacao(SolicitacaoCartaoDeCredito solicitacaoCartaoDeCredito);
     }
 }
