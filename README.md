@@ -8,11 +8,11 @@
 			1.3 - Se o RG for vazio, uma mensagem deverá retornar "Insira um RG válido" ✔
 			1.4 - Se a profissão for vazia, uma mensagem deverá retornar "Insira uma profissão válida" ✔
 			1.5 - Se a renda for vazia, uma mensagem deverá retornar "Insira uma renda válida" ✔
-			1.6 - Caso a renda seja menor que R$:800,00, deverá retornar "Renda deve ser maior que R$:800,00" 
+			1.6 - Caso a renda seja menor que R$:800,00, deverá retornar "Renda deve ser maior que R$:800,00"  ✔
 			1.7 - Caso o cpf já esteja cadastrado na base deverá retornar "Cpf já cadastrado"  
-		2 - Caso a renda seja maior que R$:800,00 e menor que R$:2500,00, um cartão do tipo Gold deverá ser ofertado
+		2 - Caso a renda seja maior que R$:800,00 e menor que R$:2500,00, um cartão do tipo Gold deverá ser ofertado ✔
 		3 - Caso a renda seja maior que R$:2500,00,  um cartão do tipo Platinum deverá ser ofertado ✔
-		4 - Quando cadastrado com sucesso, o pedido de cartão deverá ser enviado à mesa de crédito online
+		4 - Quando cadastrado com sucesso, o pedido de cartão deverá ser enviado à mesa de crédito online 
 		5 - Ao ter o pedido aprovado, um número de cartão virtual, CVV, data de validade e nome no cartão deverá ser gerado e exibido ao cliente
 		6 - A data de validade é composta por mês e ano e apresentada mm/aa
 

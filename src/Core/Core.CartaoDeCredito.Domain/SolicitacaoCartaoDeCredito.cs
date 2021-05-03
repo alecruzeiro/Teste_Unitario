@@ -17,6 +17,7 @@ namespace Core.CartaoDeCredito.Domain
         public decimal Renda { get; }
         public string NomeNoCartao { get; }
         public ETipoCartao? TipoCartaoDisponivel { get; }
+        public bool EnviadoAMesaDeCredito { get; set; }
 
         public SolicitacaoCartaoDeCredito(string nome,
             string cpf,

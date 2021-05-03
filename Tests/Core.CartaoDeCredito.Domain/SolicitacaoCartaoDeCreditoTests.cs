@@ -1,5 +1,4 @@
 ﻿using Core.CartaoDeCredito.Domain;
-using System;
 using System.Linq;
 using Xunit;
 

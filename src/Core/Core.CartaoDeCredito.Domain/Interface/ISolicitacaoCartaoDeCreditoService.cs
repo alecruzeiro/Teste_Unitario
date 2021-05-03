@@ -2,7 +2,7 @@
 {
     public interface ISolicitacaoCartaoDeCreditoService
     {
-        public void SolicitarCartao();
+        public void SolicitarCartao(SolicitacaoCartaoDeCredito solicitacaoCartaoDeCredito);
         public bool VerificarCpf(string cpf);
     }
 }
