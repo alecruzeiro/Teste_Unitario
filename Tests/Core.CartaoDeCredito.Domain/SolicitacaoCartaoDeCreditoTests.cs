@@ -54,11 +54,10 @@ namespace Tests.CartaoDeCredito.Domain
         [Theory(DisplayName = "Solicitar cartão de crédito deve retornar cartão esperado")]
         [Trait("Categoria", "Cartão de Crédito - Solicitação")]
         [InlineData(800, ETipoCartao.Gold)]
-        [InlineData(799, null)]
         [InlineData(2000, ETipoCartao.Gold)]
         [InlineData(2500, ETipoCartao.Platinum)]
         [InlineData(2600, ETipoCartao.Platinum)]
-        public void CartaoDeCredito_SolicitarCartaoComRendaDeGold_DeveRetornarCartaoEsperado(decimal renda, ETipoCartao? tipoCartaoEsperado)
+        public void CartaoDeCredito_SolicitarCartaoComRendaMaiorQue800_DeveRetornarCartaoEsperado(decimal renda, ETipoCartao? tipoCartaoEsperado)
         {
             //Arrange, Act
             var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCredito("Teste Teste",
@@ -71,6 +70,5 @@ namespace Tests.CartaoDeCredito.Domain
             //Assert
             Assert.Equal(tipoCartaoEsperado, solicitacaoCartaoDeCredito.TipoCartaoDisponivel);
         }
-
     }
 }
