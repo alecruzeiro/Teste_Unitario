@@ -7,6 +7,8 @@ namespace Core.CartaoDeCredito.Domain
 {
     public class SolicitacaoCartaoDeCredito
     {
+        public static string ERRO_RENDA = "Renda abaixo de R$:800,00";
+
         public ValidationResult ValidationResult { get; }
         public string Nome { get; }
         public string Cpf { get; }
@@ -41,7 +43,7 @@ namespace Core.CartaoDeCredito.Domain
             else if (renda >= 800m)
                 return ETipoCartao.Gold;
 
-            throw new Exception("Renda abaixo de R$:800,00");
+            throw new DomainException(ERRO_RENDA);
         }
     }
 
@@ -53,7 +55,6 @@ namespace Core.CartaoDeCredito.Domain
             {"erro_cpf", "Insira um cpf válido"},
             {"erro_rg", "Insira um RG válido"},
             {"erro_profissao", "Insira uma profissão válida"},
-            {"erro_renda", "Insira uma renda válida"},
             {"erro_nome_cartao", "Insira um nome no cartão válido"},
         };
 
@@ -76,10 +77,6 @@ namespace Core.CartaoDeCredito.Domain
             RuleFor(s => s.Profissao)
                 .NotEmpty()
                 .WithMessage(Erro_Msg["erro_profissao"]);
-
-            RuleFor(s => s.Renda)
-                .GreaterThan(0)
-                .WithMessage(Erro_Msg["erro_renda"]);
 
             RuleFor(s => s.NomeNoCartao)
                 .NotEmpty()

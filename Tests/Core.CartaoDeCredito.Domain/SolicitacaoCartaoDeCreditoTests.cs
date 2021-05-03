@@ -29,7 +29,6 @@ namespace Tests.CartaoDeCredito.Domain
         [InlineData("Teste Nome", "", "123456789", "Analista de Sistemas", 2000, "Teste Plástico", "erro_cpf")]
         [InlineData("Teste Nome", "01234567890", "", "Analista de Sistemas", 2000, "Teste Plástico", "erro_rg")]
         [InlineData("Teste Nome", "01234567890", "123456789", "", 2000, "Teste Plástico", "erro_profissao")]
-        [InlineData("Teste Nome", "01234567890", "123456789", "Analista de Sistemas", 0, "Teste Plástico", "erro_renda")]
         [InlineData("Teste Nome", "01234567890", "123456789", "Analista de Sistemas", 2000, "", "erro_nome_cartao")]
         public void CartaoDeCredito_SolicitarCartaoComDadosInvalidos_NaoDeveCriarSolicitacaoComSucesso(string nome,
             string cpf,
@@ -77,12 +76,14 @@ namespace Tests.CartaoDeCredito.Domain
         public void CartaoDeCredito_SolicitarCartaoComRendaMenorQue800_DeveRetornarErro()
         {
             //Arrange, Act, Assert
-            Assert.Throws<Exception>(() => new SolicitacaoCartaoDeCredito("Teste Teste",
+            var exception = Assert.Throws<DomainException>(() => new SolicitacaoCartaoDeCredito("Teste Teste",
                 "01234567890",
                 "1234567890",
                 "Analista de Sistemas",
                 799,
                 "Teste Plástico"));
+
+            Assert.Equal(SolicitacaoCartaoDeCredito.ERRO_RENDA, exception.Message);
         }
     }
 }
