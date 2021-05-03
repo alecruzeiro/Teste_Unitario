@@ -41,7 +41,7 @@ namespace Core.CartaoDeCredito.Domain
             else if (renda >= 800m)
                 return ETipoCartao.Gold;
 
-            return null;
+            throw new Exception("Renda abaixo de R$:800,00");
         }
     }
 
