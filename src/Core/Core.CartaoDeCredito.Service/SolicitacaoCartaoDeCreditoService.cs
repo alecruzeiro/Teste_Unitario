@@ -16,13 +16,15 @@ namespace Core.CartaoDeCredito.Service
         }
 
 
-        public void SolicitarCartao(SolicitacaoCartaoDeCreditoRequest solicitacaoCartaoDeCreditoRequest)
+        public SolicitacaoCartaoDeCreditoResponse SolicitarCartao(SolicitacaoCartaoDeCreditoRequest solicitacaoCartaoDeCreditoRequest)
         {
             var solicitacaoCartaoDeCredito = solicitacaoCartaoDeCreditoRequest.ToDomain();
             _solicitacaoCartaoDeCreditoRepository.CriarSolicitacao(solicitacaoCartaoDeCredito);
 
             var mesaDeCreditoRequest = new MesaDeCreditoRequest(solicitacaoCartaoDeCredito);
             solicitacaoCartaoDeCredito.EnviadoParaMesaDeCredito = _mesaDeCreditoService.EnviarParaMesaDeCredito(mesaDeCreditoRequest);
+
+            return solicitacaoCartaoDeCredito.ToResponse();
         }
 
         public bool VerificarCpf(string cpf)
