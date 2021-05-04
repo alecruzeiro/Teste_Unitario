@@ -3,6 +3,7 @@ using Core.CartaoDeCredito.Domain.Interface;
 using Core.CartaoDeCredito.Domain.Request;
 using Core.CartaoDeCredito.Service;
 using Moq;
+using System.Linq;
 using Xunit;
 
 namespace Tests.CartaoDeCredito.Service
@@ -32,7 +33,7 @@ namespace Tests.CartaoDeCredito.Service
 
             _mesaDeCreditoService.Setup(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()))
                                 .Returns(true);
-                                    
+
             ISolicitacaoCartaoDeCreditoService solicitacaoCartaoDeCreditoService = new SolicitacaoCartaoDeCreditoService(_solicitacaoCartaoDeCreditoRepository.Object, _mesaDeCreditoService.Object);
 
             //Act
@@ -44,17 +45,27 @@ namespace Tests.CartaoDeCredito.Service
             _mesaDeCreditoService.Verify(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()), Times.Once);
         }
 
-        [Fact(DisplayName = "Cartão de crédito inválido não deve ser enviado à mesa de crédito")]
+        [Theory(DisplayName = "Cartão de crédito inválido não deve ser enviado à mesa de crédito")]
         [Trait("Categoria", "Cartão de Crédito - Solicitação")]
-        public void CartaoDeCredito_AoSolicitarInvlido_NaoDeveSerCadastradoEEnviadoAMesaDeCredito()
+        [InlineData("", "01234567890", "123456789", "Analista de Sistemas", "Teste Plástico", "erro_nome")]
+        [InlineData("Teste Nome", "", "123456789", "Analista de Sistemas", "Teste Plástico", "erro_cpf")]
+        [InlineData("Teste Nome", "01234567890", "", "Analista de Sistemas", "Teste Plástico", "erro_rg")]
+        [InlineData("Teste Nome", "01234567890", "123456789", "", "Teste Plástico", "erro_profissao")]
+        [InlineData("Teste Nome", "01234567890", "123456789", "Analista de Sistemas", "", "erro_nome_cartao")]
+        public void CartaoDeCredito_AoSolicitarInvalido_NaoDeveSerCadastradoEEnviadoAMesaDeCredito(string nome,
+            string cpf,
+            string rg,
+            string profissao,
+            string nomeNoCartao,
+            string mensagem)
         {
             //Arrange
-            var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCreditoRequest("",
-                "01234567890",
-                "1234567890",
-                "Analista de Sistemas",
+            var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCreditoRequest(nome,
+                cpf,
+                rg,
+                profissao,
                 900m,
-                "Teste Plástico");
+                nomeNoCartao);
 
             _mesaDeCreditoService.Setup(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()))
                                 .Returns(true);
@@ -68,6 +79,7 @@ namespace Tests.CartaoDeCredito.Service
             Assert.Null(response.Id);
             _solicitacaoCartaoDeCreditoRepository.Verify(s => s.CriarSolicitacao(It.IsAny<SolicitacaoCartaoDeCredito>()), Times.Never);
             _mesaDeCreditoService.Verify(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()), Times.Never);
+            Assert.Contains(SolicitacaoCartaoDeCreditoValidation.Erro_Msg[mensagem], response.Validation.Errors.Select(e => e.ErrorMessage));
         }
     }
 }
