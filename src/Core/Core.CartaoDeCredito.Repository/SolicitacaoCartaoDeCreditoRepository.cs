@@ -1,11 +1,12 @@
 ﻿using Core.CartaoDeCredito.Domain;
+using Core.CartaoDeCredito.Domain.Dto;
 using Core.CartaoDeCredito.Domain.Interface;
 
 namespace Core.CartaoDeCredito.Repository
 {
     public class SolicitacaoCartaoDeCreditoRepository : ISolicitacaoCartaoDeCreditoRepository
     {
-        public void CriarSolicitacao(SolicitacaoCartaoDeCredito solicitacaoCartaoDeCredito)
+        public CriarSolicitacaoAdquirenteResponse CriarSolicitacaoAdquirente(SolicitacaoCartaoDeCredito solicitacaoCartaoDeCredito)
         {
             throw new System.NotImplementedException();
         }

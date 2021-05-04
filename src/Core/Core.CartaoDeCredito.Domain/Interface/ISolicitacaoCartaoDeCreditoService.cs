@@ -1,4 +1,4 @@
-﻿using Core.CartaoDeCredito.Domain.Request;
+﻿using Core.CartaoDeCredito.Domain.Dto;
 
 namespace Core.CartaoDeCredito.Domain.Interface
 {

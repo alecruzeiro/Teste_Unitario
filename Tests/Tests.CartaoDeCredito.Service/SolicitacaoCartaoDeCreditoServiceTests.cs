@@ -1,6 +1,6 @@
 using Core.CartaoDeCredito.Domain;
 using Core.CartaoDeCredito.Domain.Interface;
-using Core.CartaoDeCredito.Domain.Request;
+using Core.CartaoDeCredito.Domain.Dto;
 using Core.CartaoDeCredito.Service;
 using Moq;
 using System.Linq;
@@ -41,7 +41,7 @@ namespace Tests.CartaoDeCredito.Service
 
             //Assert
             Assert.NotNull(response.Id);
-            _solicitacaoCartaoDeCreditoRepository.Verify(s => s.CriarSolicitacao(It.IsAny<SolicitacaoCartaoDeCredito>()), Times.Once);
+            _solicitacaoCartaoDeCreditoRepository.Verify(s => s.CriarSolicitacaoAdquirente(It.IsAny<SolicitacaoCartaoDeCredito>()), Times.Once);
             _mesaDeCreditoService.Verify(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()), Times.Once);
         }
 
@@ -77,9 +77,35 @@ namespace Tests.CartaoDeCredito.Service
 
             //Assert
             Assert.Null(response.Id);
-            _solicitacaoCartaoDeCreditoRepository.Verify(s => s.CriarSolicitacao(It.IsAny<SolicitacaoCartaoDeCredito>()), Times.Never);
+            _solicitacaoCartaoDeCreditoRepository.Verify(s => s.CriarSolicitacaoAdquirente(It.IsAny<SolicitacaoCartaoDeCredito>()), Times.Never);
             _mesaDeCreditoService.Verify(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()), Times.Never);
             Assert.Contains(SolicitacaoCartaoDeCreditoValidation.Erro_Msg[mensagem], response.Validation.Errors.Select(e => e.ErrorMessage));
+        }
+
+        [Fact(DisplayName = "Pedido enviado para mesa deve ter dados do cartão retornados pelo adquirente")]
+        [Trait("Categoria", "Cartão de Crédito - Solicitação")]
+        public void CartaoDeCredito_SolicitarValido_DeveRetornarCartaoAdquirente()
+        {
+            //Arrange
+            var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCreditoRequest("Teste Teste",
+                "01234567890",
+                "1234567890",
+                "Analista de Sistemas",
+                900m,
+                "Teste Plástico");
+
+            _mesaDeCreditoService.Setup(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()))
+                                .Returns(true);
+
+            ISolicitacaoCartaoDeCreditoService solicitacaoCartaoDeCreditoService = new SolicitacaoCartaoDeCreditoService(_solicitacaoCartaoDeCreditoRepository.Object, _mesaDeCreditoService.Object);
+
+            //Act
+            var response = solicitacaoCartaoDeCreditoService.SolicitarCartao(solicitacaoCartaoDeCredito);
+
+            //Assert
+            Assert.NotNull(response.Id);
+            _solicitacaoCartaoDeCreditoRepository.Verify(s => s.CriarSolicitacaoAdquirente(It.IsAny<SolicitacaoCartaoDeCredito>()), Times.Once);
+            _mesaDeCreditoService.Verify(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()), Times.Once);
         }
     }
 }

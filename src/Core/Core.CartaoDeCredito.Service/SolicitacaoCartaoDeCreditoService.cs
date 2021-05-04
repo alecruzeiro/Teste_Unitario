@@ -1,6 +1,6 @@
 ﻿using Core.CartaoDeCredito.Domain;
 using Core.CartaoDeCredito.Domain.Interface;
-using Core.CartaoDeCredito.Domain.Request;
+using Core.CartaoDeCredito.Domain.Dto;
 
 namespace Core.CartaoDeCredito.Service
 {
@@ -18,14 +18,15 @@ namespace Core.CartaoDeCredito.Service
         public SolicitacaoCartaoDeCreditoResponse SolicitarCartao(SolicitacaoCartaoDeCreditoRequest solicitacaoCartaoDeCreditoRequest)
         {
             var solicitacaoCartaoDeCredito = solicitacaoCartaoDeCreditoRequest.ToDomain();
+            CriarSolicitacaoAdquirenteResponse criarSolicitacaoAdquirenteResponse = null;
 
             if(solicitacaoCartaoDeCredito.ValidationResult.IsValid)
             {
                 solicitacaoCartaoDeCredito.FoiEnviadoParaMesaDeCredito(_mesaDeCreditoService.EnviarParaMesaDeCredito(new MesaDeCreditoRequest(solicitacaoCartaoDeCredito)));
-                _solicitacaoCartaoDeCreditoRepository.CriarSolicitacao(solicitacaoCartaoDeCredito);
+                criarSolicitacaoAdquirenteResponse = _solicitacaoCartaoDeCreditoRepository.CriarSolicitacaoAdquirente(solicitacaoCartaoDeCredito);
             }
             
-            return solicitacaoCartaoDeCredito.ToResponse();
+            return solicitacaoCartaoDeCredito.ToResponse(criarSolicitacaoAdquirenteResponse);
         }
 
         public bool VerificarCpf(string cpf)

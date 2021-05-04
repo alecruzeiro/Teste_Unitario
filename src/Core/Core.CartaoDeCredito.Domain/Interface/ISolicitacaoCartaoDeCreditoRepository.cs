@@ -1,8 +1,10 @@
-﻿namespace Core.CartaoDeCredito.Domain.Interface
+﻿using Core.CartaoDeCredito.Domain.Dto;
+
+namespace Core.CartaoDeCredito.Domain.Interface
 {
     public interface ISolicitacaoCartaoDeCreditoRepository
     {
         public bool VerificarCpf(string cpf);
-        public void CriarSolicitacao(SolicitacaoCartaoDeCredito solicitacaoCartaoDeCredito);
+        public CriarSolicitacaoAdquirenteResponse CriarSolicitacaoAdquirente(SolicitacaoCartaoDeCredito solicitacaoCartaoDeCredito);
     }
 }
