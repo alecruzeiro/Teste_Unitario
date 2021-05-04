@@ -6,7 +6,7 @@ namespace Core.CartaoDeCredito.Domain.Dto
     {
         public string NumeroDoCartao { get; }
         public string Cvv { get; }
-        public DateTime DataDeValidade { get; }
+        public DateTime? DataDeValidade { get; }
         public string NomeNoCartao { get; }
 
         public CriarSolicitacaoAdquirenteResponse(string numeroCartao, string cvv, DateTime dataDeValidade, string nomeNoCartao)

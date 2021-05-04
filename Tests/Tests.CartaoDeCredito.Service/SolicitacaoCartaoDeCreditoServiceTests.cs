@@ -81,6 +81,10 @@ namespace Tests.CartaoDeCredito.Service
             _solicitacaoCartaoDeCreditoRepository.Verify(s => s.CriarSolicitacaoAdquirente(It.IsAny<SolicitacaoCartaoDeCredito>()), Times.Never);
             _mesaDeCreditoService.Verify(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()), Times.Never);
             Assert.Contains(SolicitacaoCartaoDeCreditoValidation.Erro_Msg[mensagem], response.Validation.Errors.Select(e => e.ErrorMessage));
+            Assert.Equal(default, response.NumeroDoCartao);
+            Assert.Equal(default, response.Cvv);
+            Assert.Equal(default, response.DataDeValidade);
+            Assert.Equal(default, response.NomeNoCartao);
         }
 
         [Fact(DisplayName = "Pedido enviado para mesa deve ter dados do cartão retornados pelo adquirente")]
@@ -94,12 +98,13 @@ namespace Tests.CartaoDeCredito.Service
                 "Analista de Sistemas",
                 900m,
                 "Teste Plástico");
-            var data = DateTime.Now.AddYears(5);
+            var dataValidade = DateTime.Now.AddYears(5);
+            CriarSolicitacaoAdquirenteResponse solicitacaoAdquirenteResponse = new CriarSolicitacaoAdquirenteResponse("12345", "123", dataValidade, "Teste Teste");
 
             _mesaDeCreditoService.Setup(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()))
                                 .Returns(true);
             _solicitacaoCartaoDeCreditoRepository.Setup(s => s.CriarSolicitacaoAdquirente(It.IsAny<SolicitacaoCartaoDeCredito>()))
-                                                .Returns(new CriarSolicitacaoAdquirenteResponse("12345", "123", data, "Teste Teste"));
+                                                .Returns(solicitacaoAdquirenteResponse);
 
             ISolicitacaoCartaoDeCreditoService solicitacaoCartaoDeCreditoService = new SolicitacaoCartaoDeCreditoService(_solicitacaoCartaoDeCreditoRepository.Object, _mesaDeCreditoService.Object);
 
@@ -110,11 +115,10 @@ namespace Tests.CartaoDeCredito.Service
             Assert.NotNull(response.Id);
             _solicitacaoCartaoDeCreditoRepository.Verify(s => s.CriarSolicitacaoAdquirente(It.IsAny<SolicitacaoCartaoDeCredito>()), Times.Once);
             _mesaDeCreditoService.Verify(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()), Times.Once);
-            Assert.Equal("12345", response.NumeroDoCartao);
-            Assert.Equal("123", response.Cvv);
-            Assert.Equal($"{data.ToString("MM")}/{data.ToString("yy")}", response.DataDeValidade);
-            Assert.Equal("Teste Teste", response.NomeNoCartao);
-
+            Assert.Equal(solicitacaoAdquirenteResponse.NumeroDoCartao, response.NumeroDoCartao);
+            Assert.Equal(solicitacaoAdquirenteResponse.Cvv, response.Cvv);
+            Assert.Equal($"{solicitacaoAdquirenteResponse.DataDeValidade?.ToString("MM")}/{solicitacaoAdquirenteResponse.DataDeValidade?.ToString("yy")}", response.DataDeValidade);
+            Assert.Equal(solicitacaoAdquirenteResponse.NomeNoCartao, response.NomeNoCartao);
         }
     }
 }
