@@ -9,7 +9,7 @@
 			1.4 - Se a profissão for vazia, uma mensagem deverá retornar "Insira uma profissão válida" ✔
 			1.5 - Se a renda for vazia, uma mensagem deverá retornar "Insira uma renda válida" ✔
 			1.6 - Caso a renda seja menor que R$:800,00, deverá retornar "Renda deve ser maior que R$:800,00"  ✔
-			1.7 - Caso o cpf já esteja cadastrado na base deverá retornar "Cpf já cadastrado"  
+			1.7 - Caso o cpf já esteja cadastrado na base deverá retornar "Cpf já cadastrado"  ✔
 		2 - Caso a renda seja maior que R$:800,00 e menor que R$:2500,00, um cartão do tipo Gold deverá ser ofertado ✔
 		3 - Caso a renda seja maior que R$:2500,00,  um cartão do tipo Platinum deverá ser ofertado ✔
 		4 - Quando cadastrado com sucesso, o pedido de cartão deverá ser enviado à mesa de crédito online ✔
