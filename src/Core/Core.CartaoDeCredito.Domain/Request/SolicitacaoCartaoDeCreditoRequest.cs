@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FluentValidation.Results;
+using Newtonsoft.Json;
 using System;
 
 namespace Core.CartaoDeCredito.Domain.Request
@@ -28,10 +29,12 @@ namespace Core.CartaoDeCredito.Domain.Request
     public class SolicitacaoCartaoDeCreditoResponse
     {
         public Guid? Id { get; }
+        public ValidationResult Validation { get; }
 
-        public SolicitacaoCartaoDeCreditoResponse(Guid? id)
+        public SolicitacaoCartaoDeCreditoResponse(Guid? id, ValidationResult validation)
         {
             Id = id;
+            Validation = validation;
         }
 
     }
@@ -53,7 +56,8 @@ namespace Core.CartaoDeCredito.Domain.Request
         public static SolicitacaoCartaoDeCreditoResponse ToResponse(this SolicitacaoCartaoDeCredito solicitacaoCartaoDeCredito)
         {
             return new SolicitacaoCartaoDeCreditoResponse(
-                    solicitacaoCartaoDeCredito.Id
+                    solicitacaoCartaoDeCredito.Id,
+                    solicitacaoCartaoDeCredito.ValidationResult
                 );
         }
     }

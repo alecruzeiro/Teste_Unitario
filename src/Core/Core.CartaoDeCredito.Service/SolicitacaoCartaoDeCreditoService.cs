@@ -19,10 +19,12 @@ namespace Core.CartaoDeCredito.Service
         {
             var solicitacaoCartaoDeCredito = solicitacaoCartaoDeCreditoRequest.ToDomain();
 
-            solicitacaoCartaoDeCredito.FoiEnviadoParaMesaDeCredito(_mesaDeCreditoService.EnviarParaMesaDeCredito(new MesaDeCreditoRequest(solicitacaoCartaoDeCredito)));
-
-            _solicitacaoCartaoDeCreditoRepository.CriarSolicitacao(solicitacaoCartaoDeCredito);
-
+            if(solicitacaoCartaoDeCredito.ValidationResult.IsValid)
+            {
+                solicitacaoCartaoDeCredito.FoiEnviadoParaMesaDeCredito(_mesaDeCreditoService.EnviarParaMesaDeCredito(new MesaDeCreditoRequest(solicitacaoCartaoDeCredito)));
+                _solicitacaoCartaoDeCreditoRepository.CriarSolicitacao(solicitacaoCartaoDeCredito);
+            }
+            
             return solicitacaoCartaoDeCredito.ToResponse();
         }
 
