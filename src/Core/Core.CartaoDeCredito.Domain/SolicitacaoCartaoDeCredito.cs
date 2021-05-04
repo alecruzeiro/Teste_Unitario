@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Core.CartaoDeCredito.Domain.Interface;
+using FluentValidation;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,7 @@ namespace Core.CartaoDeCredito.Domain
     {
         public static string ERRO_RENDA = "Renda abaixo de R$:800,00";
 
-        public ValidationResult ValidationResult { get; }
-
+        public ValidationResult ValidationResult { get; private set; }
         public Guid? Id { get; }
         public string Nome { get; }
         public string Cpf { get; }
@@ -18,7 +18,7 @@ namespace Core.CartaoDeCredito.Domain
         public string Profissao { get; }
         public decimal Renda { get; }
         public string NomeNoCartao { get; }
-        public ETipoCartao? TipoCartaoDisponivel { get; }
+        public TipoCartao? TipoCartaoDisponivel { get; }
         public bool EnviadoParaMesaDeCredito { get; private set; }
 
         public SolicitacaoCartaoDeCredito(string nome,
@@ -36,29 +36,31 @@ namespace Core.CartaoDeCredito.Domain
             Renda = renda;
             NomeNoCartao = nomeNoCartao;
             TipoCartaoDisponivel = TipoDeCartaoPorRenda(renda);
-            
-
-            ValidationResult = new SolicitacaoCartaoDeCreditoValidation().Validate(this);
-
-            if(ValidationResult.IsValid)
-                Id = id ?? Guid.NewGuid();
+            Id = id ?? Guid.NewGuid();
         }
 
-        private ETipoCartao? TipoDeCartaoPorRenda(decimal renda)
+        private TipoCartao? TipoDeCartaoPorRenda(decimal renda)
         {
             if (renda >= 2500m)
-                return ETipoCartao.Platinum;
+                return TipoCartao.Platinum;
             else if (renda >= 800m)
-                return ETipoCartao.Gold;
+                return TipoCartao.Gold;
 
             throw new DomainException(ERRO_RENDA);
         }
 
         public void FoiEnviadoParaMesaDeCredito(bool enviadoParaMesaDeCredito) =>
             EnviadoParaMesaDeCredito = enviadoParaMesaDeCredito;
+
+        public ValidationResult Validate(IValidator<SolicitacaoCartaoDeCredito> solicitacaoCartaoDeCreditoValidator)
+        {
+            ValidationResult = solicitacaoCartaoDeCreditoValidator.Validate(this);
+
+            return ValidationResult;
+        }
     }
 
-    public class SolicitacaoCartaoDeCreditoValidation : AbstractValidator<SolicitacaoCartaoDeCredito>
+    public class SolicitacaoCartaoDeCreditoValidator : AbstractValidator<SolicitacaoCartaoDeCredito>
     {
         private static IReadOnlyDictionary<string, string> _erroMsg => new Dictionary<string, string>()
         {
@@ -72,7 +74,7 @@ namespace Core.CartaoDeCredito.Domain
 
         public static IReadOnlyDictionary<string, string> Erro_Msg => _erroMsg;
 
-        public SolicitacaoCartaoDeCreditoValidation()
+        public SolicitacaoCartaoDeCreditoValidator(ISolicitacaoCartaoDeCreditoRepository solicitacaoCartaoDeCreditoRepository)
         {
             RuleFor(s => s.Nome)
                 .NotEmpty()
@@ -80,7 +82,9 @@ namespace Core.CartaoDeCredito.Domain
 
             RuleFor(s => s.Cpf)
                 .NotEmpty()
-                .WithMessage(Erro_Msg["erro_cpf"]);
+                .WithMessage(Erro_Msg["erro_cpf"])
+                .Must(cpf => !solicitacaoCartaoDeCreditoRepository.VerificarCpfJaCadastrado(cpf))
+                .WithMessage(Erro_Msg["erro_cpf_cadastrado"]);
 
             RuleFor(s => s.Rg)
                 .NotEmpty()

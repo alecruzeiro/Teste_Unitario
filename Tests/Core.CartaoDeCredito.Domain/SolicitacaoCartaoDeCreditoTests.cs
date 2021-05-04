@@ -1,4 +1,7 @@
 ﻿using Core.CartaoDeCredito.Domain;
+using Core.CartaoDeCredito.Domain.Interface;
+using FluentValidation;
+using Moq;
 using System.Linq;
 using Xunit;
 
@@ -6,17 +9,31 @@ namespace Tests.CartaoDeCredito.Domain
 {
     public class SolicitacaoCartaoDeCreditoTests
     {
+        private readonly Mock<ISolicitacaoCartaoDeCreditoService> _solicitacaoCartaoDeCreditoService;
+        private readonly Mock<ISolicitacaoCartaoDeCreditoRepository> _solicitacaoCartaoDeCreditoRepository;
+
+        public SolicitacaoCartaoDeCreditoTests()
+        {
+            _solicitacaoCartaoDeCreditoService = new Mock<ISolicitacaoCartaoDeCreditoService>();
+            _solicitacaoCartaoDeCreditoRepository = new Mock<ISolicitacaoCartaoDeCreditoRepository>();
+        }
+
         [Fact(DisplayName = "Solicitar cartão com dados válidos")]
         [Trait("Categoria", "Cartão de Crédito - Solicitação")]
         public void CartaoDeCredito_SolicitarCartaoComDadosValidos_DeveCriarSolicitacaoComSucesso()
         {
             //Arrange, Act
+            _solicitacaoCartaoDeCreditoService.Setup(x => x.VerificarCpfJaCadastrado(It.Is<string>(x => x == "01234567890")))
+                                              .Returns(false);
+            IValidator<SolicitacaoCartaoDeCredito> _solicitacaoCartaoDeCreditoValidator = new SolicitacaoCartaoDeCreditoValidator(_solicitacaoCartaoDeCreditoRepository.Object);
+
             var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCredito("Teste Teste",
                 "01234567890",
                 "1234567890",
                 "Analista de Sistemas",
                 2000m,
                 "Teste Plástico");
+            solicitacaoCartaoDeCredito.Validate(_solicitacaoCartaoDeCreditoValidator);
 
             //Assert
             Assert.True(solicitacaoCartaoDeCredito.ValidationResult.IsValid);
@@ -38,33 +55,42 @@ namespace Tests.CartaoDeCredito.Domain
             string mensagem)
         {
             //Arrange, Act
+            _solicitacaoCartaoDeCreditoService.Setup(x => x.VerificarCpfJaCadastrado(It.Is<string>(x => x == "01234567890")))
+                                              .Returns(false);
+            IValidator<SolicitacaoCartaoDeCredito> _solicitacaoCartaoDeCreditoValidator = new SolicitacaoCartaoDeCreditoValidator(_solicitacaoCartaoDeCreditoRepository.Object);
+
             var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCredito(nome,
                 cpf,
                 rg,
                 profissao,
                 renda,
                 nomeNoCartao);
-
+            solicitacaoCartaoDeCredito.Validate(_solicitacaoCartaoDeCreditoValidator);
             //Assert
             Assert.False(solicitacaoCartaoDeCredito.ValidationResult.IsValid);
-            Assert.Contains(SolicitacaoCartaoDeCreditoValidation.Erro_Msg[mensagem], solicitacaoCartaoDeCredito.ValidationResult.Errors.Select(e => e.ErrorMessage));
+            Assert.Contains(SolicitacaoCartaoDeCreditoValidator.Erro_Msg[mensagem], solicitacaoCartaoDeCredito.ValidationResult.Errors.Select(e => e.ErrorMessage));
         }
 
         [Theory(DisplayName = "Solicitar cartão de crédito com renda acima de 800 reais deve retornar cartão esperado")]
         [Trait("Categoria", "Cartão de Crédito - Solicitação")]
-        [InlineData(800, ETipoCartao.Gold)]
-        [InlineData(2000, ETipoCartao.Gold)]
-        [InlineData(2500, ETipoCartao.Platinum)]
-        [InlineData(2600, ETipoCartao.Platinum)]
-        public void CartaoDeCredito_SolicitarCartaoComRendaMaiorQue800_DeveRetornarCartaoEsperado(decimal renda, ETipoCartao? tipoCartaoEsperado)
+        [InlineData(800, TipoCartao.Gold)]
+        [InlineData(2000, TipoCartao.Gold)]
+        [InlineData(2500, TipoCartao.Platinum)]
+        [InlineData(2600, TipoCartao.Platinum)]
+        public void CartaoDeCredito_SolicitarCartaoComRendaMaiorQue800_DeveRetornarCartaoEsperado(decimal renda, TipoCartao? tipoCartaoEsperado)
         {
             //Arrange, Act
+            _solicitacaoCartaoDeCreditoService.Setup(x => x.VerificarCpfJaCadastrado(It.Is<string>(x => x == "01234567890")))
+                                              .Returns(false);
+            IValidator<SolicitacaoCartaoDeCredito> _solicitacaoCartaoDeCreditoValidator = new SolicitacaoCartaoDeCreditoValidator(_solicitacaoCartaoDeCreditoRepository.Object);
+
             var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCredito("Teste Teste",
                 "01234567890",
                 "1234567890",
                 "Analista de Sistemas",
                 renda,
                 "Teste Plástico");
+            solicitacaoCartaoDeCredito.Validate(_solicitacaoCartaoDeCreditoValidator);
 
             //Assert
             Assert.Equal(tipoCartaoEsperado, solicitacaoCartaoDeCredito.TipoCartaoDisponivel);

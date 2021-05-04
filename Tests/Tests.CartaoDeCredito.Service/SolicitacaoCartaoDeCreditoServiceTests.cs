@@ -6,6 +6,7 @@ using Moq;
 using System.Linq;
 using Xunit;
 using System;
+using FluentValidation;
 
 namespace Tests.CartaoDeCredito.Service
 {
@@ -32,16 +33,18 @@ namespace Tests.CartaoDeCredito.Service
                 900m,
                 "Teste Plástico");
 
+            _solicitacaoCartaoDeCreditoRepository.Setup(s => s.VerificarCpfJaCadastrado("01234567890"))
+                                                .Returns(false);
             _mesaDeCreditoService.Setup(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()))
                                 .Returns(true);
 
-            ISolicitacaoCartaoDeCreditoService solicitacaoCartaoDeCreditoService = new SolicitacaoCartaoDeCreditoService(_solicitacaoCartaoDeCreditoRepository.Object, _mesaDeCreditoService.Object);
+            IValidator<SolicitacaoCartaoDeCredito> _solicitacaoCartaoDeCreditoValidator = new SolicitacaoCartaoDeCreditoValidator(_solicitacaoCartaoDeCreditoRepository.Object);
+            ISolicitacaoCartaoDeCreditoService solicitacaoCartaoDeCreditoService = new SolicitacaoCartaoDeCreditoService(_solicitacaoCartaoDeCreditoRepository.Object, _mesaDeCreditoService.Object, _solicitacaoCartaoDeCreditoValidator);
 
             //Act
             var response = solicitacaoCartaoDeCreditoService.SolicitarCartao(solicitacaoCartaoDeCredito);
 
             //Assert
-            Assert.NotNull(response.Id);
             _solicitacaoCartaoDeCreditoRepository.Verify(s => s.CriarSolicitacaoAdquirente(It.IsAny<SolicitacaoCartaoDeCredito>()), Times.Once);
             _mesaDeCreditoService.Verify(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()), Times.Once);
         }
@@ -67,20 +70,22 @@ namespace Tests.CartaoDeCredito.Service
                 profissao,
                 900m,
                 nomeNoCartao);
-
+            
+            _solicitacaoCartaoDeCreditoRepository.Setup(s => s.VerificarCpfJaCadastrado(It.Is<string>(x => x == "01234567890")))
+                                              .Returns(false);
             _mesaDeCreditoService.Setup(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()))
-                                .Returns(true);
+                                .Returns(false);
 
-            ISolicitacaoCartaoDeCreditoService solicitacaoCartaoDeCreditoService = new SolicitacaoCartaoDeCreditoService(_solicitacaoCartaoDeCreditoRepository.Object, _mesaDeCreditoService.Object);
+            IValidator<SolicitacaoCartaoDeCredito> _solicitacaoCartaoDeCreditoValidator = new SolicitacaoCartaoDeCreditoValidator(_solicitacaoCartaoDeCreditoRepository.Object);
+            ISolicitacaoCartaoDeCreditoService solicitacaoCartaoDeCreditoService = new SolicitacaoCartaoDeCreditoService(_solicitacaoCartaoDeCreditoRepository.Object, _mesaDeCreditoService.Object, _solicitacaoCartaoDeCreditoValidator);
 
             //Act
             var response = solicitacaoCartaoDeCreditoService.SolicitarCartao(solicitacaoCartaoDeCredito);
 
             //Assert
-            Assert.Null(response.Id);
             _solicitacaoCartaoDeCreditoRepository.Verify(s => s.CriarSolicitacaoAdquirente(It.IsAny<SolicitacaoCartaoDeCredito>()), Times.Never);
             _mesaDeCreditoService.Verify(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()), Times.Never);
-            Assert.Contains(SolicitacaoCartaoDeCreditoValidation.Erro_Msg[mensagem], response.Validation.Errors.Select(e => e.ErrorMessage));
+            Assert.Contains(SolicitacaoCartaoDeCreditoValidator.Erro_Msg[mensagem], response.Validation.Errors.Select(e => e.ErrorMessage));
             Assert.Equal(default, response.NumeroDoCartao);
             Assert.Equal(default, response.Cvv);
             Assert.Equal(default, response.DataDeValidade);
@@ -105,14 +110,17 @@ namespace Tests.CartaoDeCredito.Service
                                 .Returns(true);
             _solicitacaoCartaoDeCreditoRepository.Setup(s => s.CriarSolicitacaoAdquirente(It.IsAny<SolicitacaoCartaoDeCredito>()))
                                                 .Returns(solicitacaoAdquirenteResponse);
+            _solicitacaoCartaoDeCreditoRepository.Setup(s => s.VerificarCpfJaCadastrado(It.Is<string>(x => x == "01234567890")))
+                                              .Returns(false);
 
-            ISolicitacaoCartaoDeCreditoService solicitacaoCartaoDeCreditoService = new SolicitacaoCartaoDeCreditoService(_solicitacaoCartaoDeCreditoRepository.Object, _mesaDeCreditoService.Object);
+            IValidator<SolicitacaoCartaoDeCredito> _solicitacaoCartaoDeCreditoValidator = new SolicitacaoCartaoDeCreditoValidator(_solicitacaoCartaoDeCreditoRepository.Object);
+
+            ISolicitacaoCartaoDeCreditoService solicitacaoCartaoDeCreditoService = new SolicitacaoCartaoDeCreditoService(_solicitacaoCartaoDeCreditoRepository.Object, _mesaDeCreditoService.Object, _solicitacaoCartaoDeCreditoValidator);
 
             //Act
             var response = solicitacaoCartaoDeCreditoService.SolicitarCartao(solicitacaoCartaoDeCredito);
 
             //Assert
-            Assert.NotNull(response.Id);
             _solicitacaoCartaoDeCreditoRepository.Verify(s => s.CriarSolicitacaoAdquirente(It.IsAny<SolicitacaoCartaoDeCredito>()), Times.Once);
             _mesaDeCreditoService.Verify(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()), Times.Once);
             Assert.Equal(solicitacaoAdquirenteResponse.NumeroDoCartao, response.NumeroDoCartao);
@@ -135,14 +143,16 @@ namespace Tests.CartaoDeCredito.Service
             _solicitacaoCartaoDeCreditoRepository.Setup(s => s.VerificarCpfJaCadastrado("01234567890"))
                                                 .Returns(true);
 
-            ISolicitacaoCartaoDeCreditoService solicitacaoCartaoDeCreditoService = new SolicitacaoCartaoDeCreditoService(_solicitacaoCartaoDeCreditoRepository.Object, _mesaDeCreditoService.Object);
+            IValidator<SolicitacaoCartaoDeCredito> _solicitacaoCartaoDeCreditoValidator = new SolicitacaoCartaoDeCreditoValidator(_solicitacaoCartaoDeCreditoRepository.Object);
+
+            ISolicitacaoCartaoDeCreditoService solicitacaoCartaoDeCreditoService = new SolicitacaoCartaoDeCreditoService(_solicitacaoCartaoDeCreditoRepository.Object, _mesaDeCreditoService.Object, _solicitacaoCartaoDeCreditoValidator);
 
             //Act
             var response = solicitacaoCartaoDeCreditoService.SolicitarCartao(solicitacaoCartaoDeCredito);
 
             //Assert
             _solicitacaoCartaoDeCreditoRepository.Verify(s => s.VerificarCpfJaCadastrado(It.IsAny<string>()), Times.Once);
-            Assert.Contains(SolicitacaoCartaoDeCreditoValidation.Erro_Msg["erro_cpf_cadastrado"], response.Validation.Errors.Select(e => e.ErrorMessage));
+            Assert.Contains(SolicitacaoCartaoDeCreditoValidator.Erro_Msg["erro_cpf_cadastrado"], response.Validation.Errors.Select(e => e.ErrorMessage));
         }
     }
 }

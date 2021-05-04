@@ -1,5 +1,7 @@
 ﻿using Core.CartaoDeCredito.Domain.Interface;
 using Core.CartaoDeCredito.Domain.Dto;
+using FluentValidation;
+using Core.CartaoDeCredito.Domain;
 
 namespace Core.CartaoDeCredito.Service
 {
@@ -7,19 +9,23 @@ namespace Core.CartaoDeCredito.Service
     {
         private readonly ISolicitacaoCartaoDeCreditoRepository _solicitacaoCartaoDeCreditoRepository;
         private readonly IMesaDeCreditoService _mesaDeCreditoService;
+        private readonly IValidator<SolicitacaoCartaoDeCredito> _solicitacaoCartaoDeCreditoValidator;
 
-        public SolicitacaoCartaoDeCreditoService(ISolicitacaoCartaoDeCreditoRepository solicitacaoCartaoDeCreditoRepository, IMesaDeCreditoService mesaDeCreditoService)
+        public SolicitacaoCartaoDeCreditoService(ISolicitacaoCartaoDeCreditoRepository solicitacaoCartaoDeCreditoRepository, IMesaDeCreditoService mesaDeCreditoService, 
+            IValidator<SolicitacaoCartaoDeCredito> solicitacaoCartaoDeCreditoValidator)
         {
             _solicitacaoCartaoDeCreditoRepository = solicitacaoCartaoDeCreditoRepository;
             _mesaDeCreditoService = mesaDeCreditoService;
+            _solicitacaoCartaoDeCreditoValidator = solicitacaoCartaoDeCreditoValidator;
         }
 
         public SolicitacaoCartaoDeCreditoResponse SolicitarCartao(SolicitacaoCartaoDeCreditoRequest solicitacaoCartaoDeCreditoRequest)
         {
             var solicitacaoCartaoDeCredito = solicitacaoCartaoDeCreditoRequest.ToDomain();
             CriarSolicitacaoAdquirenteResponse criarSolicitacaoAdquirenteResponse = null;
+            solicitacaoCartaoDeCredito.Validate(_solicitacaoCartaoDeCreditoValidator);
 
-            if(solicitacaoCartaoDeCredito.ValidationResult.IsValid && !VerificarCpf(solicitacaoCartaoDeCredito.Cpf))
+            if(solicitacaoCartaoDeCredito.ValidationResult.IsValid)
             {
                 solicitacaoCartaoDeCredito.FoiEnviadoParaMesaDeCredito(_mesaDeCreditoService.EnviarParaMesaDeCredito(new MesaDeCreditoRequest(solicitacaoCartaoDeCredito)));
                 criarSolicitacaoAdquirenteResponse = _solicitacaoCartaoDeCreditoRepository.CriarSolicitacaoAdquirente(solicitacaoCartaoDeCredito);
@@ -28,7 +34,7 @@ namespace Core.CartaoDeCredito.Service
             return solicitacaoCartaoDeCredito.ToResponse(criarSolicitacaoAdquirenteResponse);
         }
 
-        public bool VerificarCpf(string cpf)
+        public bool VerificarCpfJaCadastrado(string cpf)
         {
             return _solicitacaoCartaoDeCreditoRepository.VerificarCpfJaCadastrado(cpf);
         }
