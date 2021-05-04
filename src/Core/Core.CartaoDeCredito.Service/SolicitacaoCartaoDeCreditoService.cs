@@ -15,7 +15,6 @@ namespace Core.CartaoDeCredito.Service
             _mesaDeCreditoService = mesaDeCreditoService;
         }
 
-
         public SolicitacaoCartaoDeCreditoResponse SolicitarCartao(SolicitacaoCartaoDeCreditoRequest solicitacaoCartaoDeCreditoRequest)
         {
             var solicitacaoCartaoDeCredito = solicitacaoCartaoDeCreditoRequest.ToDomain();

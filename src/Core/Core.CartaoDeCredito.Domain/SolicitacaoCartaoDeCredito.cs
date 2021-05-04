@@ -36,9 +36,9 @@ namespace Core.CartaoDeCredito.Domain
             Renda = renda;
             NomeNoCartao = nomeNoCartao;
             TipoCartaoDisponivel = TipoDeCartaoPorRenda(renda);
+            Id = id ?? Guid.NewGuid();
 
             ValidationResult = new SolicitacaoCartaoDeCreditoValidation().Validate(this);
-            Id = id ?? Guid.NewGuid();
         }
 
         private ETipoCartao? TipoDeCartaoPorRenda(decimal renda)
