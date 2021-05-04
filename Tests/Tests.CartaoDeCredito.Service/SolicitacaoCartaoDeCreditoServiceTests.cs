@@ -106,6 +106,7 @@ namespace Tests.CartaoDeCredito.Service
             Assert.NotNull(response.Id);
             _solicitacaoCartaoDeCreditoRepository.Verify(s => s.CriarSolicitacaoAdquirente(It.IsAny<SolicitacaoCartaoDeCredito>()), Times.Once);
             _mesaDeCreditoService.Verify(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()), Times.Once);
+            Assert.NotNull(response.NumeroDoCartao);
         }
     }
 }
