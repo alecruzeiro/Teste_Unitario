@@ -11,7 +11,7 @@ namespace Core.CartaoDeCredito.Repository
             throw new System.NotImplementedException();
         }
 
-        public bool VerificarCpf(string cpf)
+        public bool VerificarCpfJaCadastrado(string cpf)
         {
             throw new System.NotImplementedException();
         }

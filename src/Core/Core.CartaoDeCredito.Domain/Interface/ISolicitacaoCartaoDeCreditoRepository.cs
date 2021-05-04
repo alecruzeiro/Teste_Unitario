@@ -4,7 +4,7 @@ namespace Core.CartaoDeCredito.Domain.Interface
 {
     public interface ISolicitacaoCartaoDeCreditoRepository
     {
-        public bool VerificarCpf(string cpf);
+        public bool VerificarCpfJaCadastrado(string cpf);
         public CriarSolicitacaoAdquirenteResponse CriarSolicitacaoAdquirente(SolicitacaoCartaoDeCredito solicitacaoCartaoDeCredito);
     }
 }

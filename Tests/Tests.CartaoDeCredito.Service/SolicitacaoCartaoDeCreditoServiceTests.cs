@@ -120,5 +120,28 @@ namespace Tests.CartaoDeCredito.Service
             Assert.Equal($"{solicitacaoAdquirenteResponse.DataDeValidade?.ToString("MM")}/{solicitacaoAdquirenteResponse.DataDeValidade?.ToString("yy")}", response.DataDeValidade);
             Assert.Equal(solicitacaoAdquirenteResponse.NomeNoCartao, response.NomeNoCartao);
         }
+
+        [Fact(DisplayName = "Caso o cpf já esteja cadastrado na base deverá retornar Cpf já cadastrado")]
+        [Trait("Categoria", "Cartão de Crédito - Solicitação")]
+        public void CartaoDeCredito_SolicitarCpfJaCadastrado_DeveRetornarMensagemCpfCadastrado()
+        {
+            //Arrange
+            var solicitacaoCartaoDeCredito = new SolicitacaoCartaoDeCreditoRequest("Teste Teste",
+                "01234567890",
+                "1234567890",
+                "Analista de Sistemas",
+                900m,
+                "Teste Plástico");
+            _solicitacaoCartaoDeCreditoRepository.Setup(s => s.VerificarCpfJaCadastrado("01234567890"))
+                                                .Returns(true);
+
+            ISolicitacaoCartaoDeCreditoService solicitacaoCartaoDeCreditoService = new SolicitacaoCartaoDeCreditoService(_solicitacaoCartaoDeCreditoRepository.Object, _mesaDeCreditoService.Object);
+
+            //Act
+            var response = solicitacaoCartaoDeCreditoService.SolicitarCartao(solicitacaoCartaoDeCredito);
+
+            //Assert
+            _solicitacaoCartaoDeCreditoRepository.Verify(s => s.VerificarCpfJaCadastrado(It.IsAny<string>()), Times.Once);
+        }
     }
 }
