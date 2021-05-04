@@ -69,7 +69,7 @@ namespace Core.CartaoDeCredito.Domain.Dto
                     solicitacaoCartaoDeCredito.Id,
                     criarSolicitacaoAdquirenteResponse?.NumeroDoCartao,
                     criarSolicitacaoAdquirenteResponse?.Cvv,
-                    criarSolicitacaoAdquirenteResponse?.DataDeValidade.ToString("mm/yy"),
+                    criarSolicitacaoAdquirenteResponse?.DataDeValidade.ToString("MM/yy"),
                     criarSolicitacaoAdquirenteResponse?.NomeNoCartao,
                     solicitacaoCartaoDeCredito.ValidationResult
                 );

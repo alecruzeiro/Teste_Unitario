@@ -5,6 +5,7 @@ using Core.CartaoDeCredito.Service;
 using Moq;
 using System.Linq;
 using Xunit;
+using System;
 
 namespace Tests.CartaoDeCredito.Service
 {
@@ -93,9 +94,12 @@ namespace Tests.CartaoDeCredito.Service
                 "Analista de Sistemas",
                 900m,
                 "Teste Plástico");
+            var data = DateTime.Now.AddYears(5);
 
             _mesaDeCreditoService.Setup(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()))
                                 .Returns(true);
+            _solicitacaoCartaoDeCreditoRepository.Setup(s => s.CriarSolicitacaoAdquirente(It.IsAny<SolicitacaoCartaoDeCredito>()))
+                                                .Returns(new CriarSolicitacaoAdquirenteResponse("12345", "123", data, "Teste Teste"));
 
             ISolicitacaoCartaoDeCreditoService solicitacaoCartaoDeCreditoService = new SolicitacaoCartaoDeCreditoService(_solicitacaoCartaoDeCreditoRepository.Object, _mesaDeCreditoService.Object);
 
@@ -106,7 +110,11 @@ namespace Tests.CartaoDeCredito.Service
             Assert.NotNull(response.Id);
             _solicitacaoCartaoDeCreditoRepository.Verify(s => s.CriarSolicitacaoAdquirente(It.IsAny<SolicitacaoCartaoDeCredito>()), Times.Once);
             _mesaDeCreditoService.Verify(m => m.EnviarParaMesaDeCredito(It.IsAny<MesaDeCreditoRequest>()), Times.Once);
-            Assert.NotNull(response.NumeroDoCartao);
+            Assert.Equal("12345", response.NumeroDoCartao);
+            Assert.Equal("123", response.Cvv);
+            Assert.Equal($"{data.ToString("MM")}/{data.ToString("yy")}", response.DataDeValidade);
+            Assert.Equal("Teste Teste", response.NomeNoCartao);
+
         }
     }
 }
