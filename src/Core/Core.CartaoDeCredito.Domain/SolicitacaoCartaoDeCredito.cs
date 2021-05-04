@@ -11,7 +11,7 @@ namespace Core.CartaoDeCredito.Domain
 
         public ValidationResult ValidationResult { get; }
 
-        public Guid Id { get; set; }
+        public Guid? Id { get; }
         public string Nome { get; }
         public string Cpf { get; }
         public string Rg { get; }
@@ -19,14 +19,15 @@ namespace Core.CartaoDeCredito.Domain
         public decimal Renda { get; }
         public string NomeNoCartao { get; }
         public ETipoCartao? TipoCartaoDisponivel { get; }
-        public bool EnviadoParaMesaDeCredito { get; set; }
+        public bool EnviadoParaMesaDeCredito { get; private set; }
 
         public SolicitacaoCartaoDeCredito(string nome,
             string cpf,
             string rg,
             string profissao,
             decimal renda,
-            string nomeNoCartao)
+            string nomeNoCartao,
+            Guid? id = default)
         {
             Nome = nome;
             Cpf = cpf;
@@ -37,7 +38,7 @@ namespace Core.CartaoDeCredito.Domain
             TipoCartaoDisponivel = TipoDeCartaoPorRenda(renda);
 
             ValidationResult = new SolicitacaoCartaoDeCreditoValidation().Validate(this);
-            Id = Guid.NewGuid();
+            Id = id ?? Guid.NewGuid();
         }
 
         private ETipoCartao? TipoDeCartaoPorRenda(decimal renda)
@@ -49,6 +50,9 @@ namespace Core.CartaoDeCredito.Domain
 
             throw new DomainException(ERRO_RENDA);
         }
+
+        public void FoiEnviadoParaMesaDeCredito(bool enviadoParaMesaDeCredito) =>
+            EnviadoParaMesaDeCredito = enviadoParaMesaDeCredito;
     }
 
     public class SolicitacaoCartaoDeCreditoValidation : AbstractValidator<SolicitacaoCartaoDeCredito>
