@@ -142,6 +142,7 @@ namespace Tests.CartaoDeCredito.Service
 
             //Assert
             _solicitacaoCartaoDeCreditoRepository.Verify(s => s.VerificarCpfJaCadastrado(It.IsAny<string>()), Times.Once);
+            Assert.Contains(SolicitacaoCartaoDeCreditoValidation.Erro_Msg["erro_cpf_cadastrado"], response.Validation.Errors.Select(e => e.ErrorMessage));
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Core.CartaoDeCredito.Domain;
-using Core.CartaoDeCredito.Domain.Interface;
+﻿using Core.CartaoDeCredito.Domain.Interface;
 using Core.CartaoDeCredito.Domain.Dto;
 
 namespace Core.CartaoDeCredito.Service
@@ -20,7 +19,7 @@ namespace Core.CartaoDeCredito.Service
             var solicitacaoCartaoDeCredito = solicitacaoCartaoDeCreditoRequest.ToDomain();
             CriarSolicitacaoAdquirenteResponse criarSolicitacaoAdquirenteResponse = null;
 
-            if(solicitacaoCartaoDeCredito.ValidationResult.IsValid)
+            if(solicitacaoCartaoDeCredito.ValidationResult.IsValid && !VerificarCpf(solicitacaoCartaoDeCredito.Cpf))
             {
                 solicitacaoCartaoDeCredito.FoiEnviadoParaMesaDeCredito(_mesaDeCreditoService.EnviarParaMesaDeCredito(new MesaDeCreditoRequest(solicitacaoCartaoDeCredito)));
                 criarSolicitacaoAdquirenteResponse = _solicitacaoCartaoDeCreditoRepository.CriarSolicitacaoAdquirente(solicitacaoCartaoDeCredito);
@@ -31,7 +30,7 @@ namespace Core.CartaoDeCredito.Service
 
         public bool VerificarCpf(string cpf)
         {
-            throw new System.NotImplementedException();
+            return _solicitacaoCartaoDeCreditoRepository.VerificarCpfJaCadastrado(cpf);
         }
     }
 }

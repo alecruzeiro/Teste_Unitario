@@ -64,6 +64,7 @@ namespace Core.CartaoDeCredito.Domain
         {
             {"erro_nome", "Insira um nome válido"},
             {"erro_cpf", "Insira um cpf válido"},
+            {"erro_cpf_cadastrado", "Cpf já cadastrado"},
             {"erro_rg", "Insira um RG válido"},
             {"erro_profissao", "Insira uma profissão válida"},
             {"erro_nome_cartao", "Insira um nome no cartão válido"},
