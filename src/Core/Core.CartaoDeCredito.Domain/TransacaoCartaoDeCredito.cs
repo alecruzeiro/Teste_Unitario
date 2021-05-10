@@ -22,7 +22,7 @@ namespace Core.CartaoDeCredito.Domain
     {
         public TransacaoCartaoDeCreditoValidator()
         {
-            throw new System.Exception();
+            
         }
     }
 }
