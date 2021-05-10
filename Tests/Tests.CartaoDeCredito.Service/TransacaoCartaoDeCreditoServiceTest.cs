@@ -59,13 +59,13 @@ namespace Tests.CartaoDeCredito.Service
             {
                 CartaoDeCredito = new CartaoDeCreditoRequest()
                 {
-                    Cpf = "01234567890",
-                    Cvv = "123",
-                    NumeroCartaoVirtual = "1234567890",
-                    DataDeValidade = "12/2026",
-                    NomeNoCartao = "Teste do Teste"
+                    Cpf = "",
+                    Cvv = "",
+                    NumeroCartaoVirtual = "",
+                    DataDeValidade = "",
+                    NomeNoCartao = ""
                 },
-                ValorTotal = 100m
+                ValorTotal = 0m
             };
 
             _transacaoCartaoDeCreditoRepository.Setup(c => c.Criar(It.IsAny<TransacaoCartaoDeCredito>()))
