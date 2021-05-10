@@ -1,4 +1,6 @@
-﻿namespace Core.CartaoDeCredito.Domain
+﻿using FluentValidation;
+
+namespace Core.CartaoDeCredito.Domain
 {
     public class CartaoDeCredito
     {
@@ -7,5 +9,13 @@
         public string Cvv { get; set; }
         public string DataDeValidade { get; set; }
         public string Cpf { get; set; }
+    }
+
+    public class CartaoDeCreditoValidator : AbstractValidator<CartaoDeCredito>
+    {
+        public CartaoDeCreditoValidator()
+        {
+            
+        }
     }
 }

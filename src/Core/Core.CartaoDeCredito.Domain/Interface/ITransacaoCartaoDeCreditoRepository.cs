@@ -2,5 +2,6 @@
 {
     public interface ITransacaoCartaoDeCreditoRepository
     {
+        bool Criar(TransacaoCartaoDeCredito transacao);
     }
 }
