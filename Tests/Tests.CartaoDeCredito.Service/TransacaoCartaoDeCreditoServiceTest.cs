@@ -22,10 +22,11 @@ namespace Tests.CartaoDeCredito.Service
         }
             
 
-        [Fact(DisplayName = "Transação com dados validos")]
+        [Fact(DisplayName = "Transação com dados validos deve criar transação")]
         [Trait("Categoria", "Cartão de Crédito - Transação")]
         public void TransacaoCartaoDeCredito_TransacaoComDadosValidosNoCartao_DeveTransacionarComSucesso()
         {
+            //Arrange
             var transacao = new TransacaoCartaoDeCreditoRequest()
             {
                 CartaoDeCredito = new CartaoDeCreditoRequest()
@@ -39,7 +40,14 @@ namespace Tests.CartaoDeCredito.Service
                 ValorTotal = 100m
             };
 
-            _transacaoCartaoDeCreditoService.Criar(transacao);
+            _transacaoCartaoDeCreditoRepository.Setup(c => c.Criar(It.IsAny<TransacaoCartaoDeCredito>()))
+                                            .Returns(true);
+            //Act
+            var transacaoResponse = _transacaoCartaoDeCreditoService.Criar(transacao);
+
+            //Assert
+            _transacaoCartaoDeCreditoRepository.Verify(s => s.Criar(It.IsAny<TransacaoCartaoDeCredito>()), Times.Once);
+            Assert.True(transacaoResponse.TransacaoRealizadaComSucesso);
         }
     }
 }

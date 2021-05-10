@@ -20,9 +20,10 @@ namespace Core.CartaoDeCredito.Service
         {
             var transacao = transacaoRequest.ToDomain();
             transacao.Validate(_transacaoCartaoDeCredito);
+
             if (transacao.ValidationResult.IsValid)
             {
-                _transacaoCartaoDeCreditoRepository.Criar(transacao);
+                transacao.ResultadoTransacao(_transacaoCartaoDeCreditoRepository.Criar(transacao));
                 return transacao.ToResponse();
             }
 

@@ -1,4 +1,7 @@
-﻿namespace Core.CartaoDeCredito.Domain.Dto
+﻿using FluentValidation.Results;
+using System;
+
+namespace Core.CartaoDeCredito.Domain.Dto
 {
     public class TransacaoCartaoDeCreditoRequest
     {
@@ -8,7 +11,17 @@
 
     public class TransacaoCartaoDeCreditoResponse
     {
+        public Guid? Id { get; set; }
         public bool TransacaoRealizadaComSucesso { get; set; }
+        public ValidationResult Validation { get; }
+
+        public TransacaoCartaoDeCreditoResponse(Guid? id, bool transacaoRealizadaComSucesso, ValidationResult validation)
+        {
+            Id = id;
+            TransacaoRealizadaComSucesso = transacaoRealizadaComSucesso;
+            Validation = validation;
+        }
+
     }
 
     public class CartaoDeCreditoRequest
@@ -29,15 +42,12 @@
                 solicitacaoCartaoDeCredito.CartaoDeCredito.Cvv,
                 solicitacaoCartaoDeCredito.CartaoDeCredito.DataDeValidade,
                 solicitacaoCartaoDeCredito.CartaoDeCredito.NomeNoCartao,
-                solicitacaoCartaoDeCredito.CartaoDeCredito.NumeroCartaoVirtual) ,solicitacaoCartaoDeCredito.ValorTotal);
+                solicitacaoCartaoDeCredito.CartaoDeCredito.NumeroCartaoVirtual), solicitacaoCartaoDeCredito.ValorTotal);
         }
 
         public static TransacaoCartaoDeCreditoResponse ToResponse(this TransacaoCartaoDeCredito solicitacaoCartaoDeCredito)
         {
-            return new TransacaoCartaoDeCreditoResponse()
-            {
-                TransacaoRealizadaComSucesso = solicitacaoCartaoDeCredito.TransacaoRealizadaComSucesso
-            };
+            return new TransacaoCartaoDeCreditoResponse(solicitacaoCartaoDeCredito.Id, solicitacaoCartaoDeCredito.TransacaoRealizadaComSucesso, solicitacaoCartaoDeCredito.ValidationResult);
         }
     }
 }
