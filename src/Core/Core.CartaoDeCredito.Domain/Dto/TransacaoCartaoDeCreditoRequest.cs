@@ -25,18 +25,11 @@
     {
         public static TransacaoCartaoDeCredito ToDomain(this TransacaoCartaoDeCreditoRequest solicitacaoCartaoDeCredito)
         {
-            return new TransacaoCartaoDeCredito()
-            {
-                CartaoDeCredito = new CartaoDeCredito()
-                {
-                    Cpf = solicitacaoCartaoDeCredito.CartaoDeCredito.Cpf,
-                    Cvv = solicitacaoCartaoDeCredito.CartaoDeCredito.Cvv,
-                    DataDeValidade = solicitacaoCartaoDeCredito.CartaoDeCredito.DataDeValidade,
-                    NomeNoCartao = solicitacaoCartaoDeCredito.CartaoDeCredito.NomeNoCartao,
-                    NumeroCartaoVirtual = solicitacaoCartaoDeCredito.CartaoDeCredito.NumeroCartaoVirtual
-                },
-                ValorTotal = solicitacaoCartaoDeCredito.ValorTotal
-            };
+            return new TransacaoCartaoDeCredito(new CartaoDeCredito(solicitacaoCartaoDeCredito.CartaoDeCredito.Cpf,
+                solicitacaoCartaoDeCredito.CartaoDeCredito.Cvv,
+                solicitacaoCartaoDeCredito.CartaoDeCredito.DataDeValidade,
+                solicitacaoCartaoDeCredito.CartaoDeCredito.NomeNoCartao,
+                solicitacaoCartaoDeCredito.CartaoDeCredito.NumeroCartaoVirtual) ,solicitacaoCartaoDeCredito.ValorTotal);
         }
 
         public static TransacaoCartaoDeCreditoResponse ToResponse(this TransacaoCartaoDeCredito solicitacaoCartaoDeCredito)

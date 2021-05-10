@@ -22,8 +22,7 @@ namespace Core.CartaoDeCredito.Service
             transacao.Validate(_transacaoCartaoDeCredito);
             if (transacao.ValidationResult.IsValid)
             {
-                transacao.TransacaoRealizadaComSucesso = _transacaoCartaoDeCreditoRepository.Criar(transacao);
-
+                _transacaoCartaoDeCreditoRepository.Criar(transacao);
                 return transacao.ToResponse();
             }
 

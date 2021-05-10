@@ -18,7 +18,7 @@
 
 ## Transacionar com Cartão de Crédito Virtual
 	Eu como cliente desejo fazer uma transação com meu cartão de crédito virtual
-		1 - Ao fazer uma transação em lojas virtuais, deve ser informado Nome no cartão, Número do cartão virtual, CVV, data de validade, CPF e valor total da transação
+		1 - Ao fazer uma transação em lojas virtuais, deve ser informado Nome no cartão, Número do cartão virtual, CVV, data de validade, CPF e valor total da transação ✔
 			1.1 - Se o número do cartão for inválido, uma mensagem deverá retornar "Número do cartão inválido"
 			1.2 - Se o saldo disponível do cartão de crédito for menor que o valor total do pedido, uma mensagem deverá retornar "Saldo insuficiente"
 			1.3 - Se o cvv do cartão for inválido, uma mensagem deverá retornar "Número do cvv inválido"
