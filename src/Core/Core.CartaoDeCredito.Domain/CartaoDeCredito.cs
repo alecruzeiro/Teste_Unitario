@@ -10,7 +10,7 @@ namespace Core.CartaoDeCredito.Domain
         public string DataDeValidade { get; }
         public string Cpf { get; }
 
-        public CartaoDeCredito(string nomeNoCartao, string numeroCartaoVirtual, string cvv, string dataDeValidade, string cpf)
+        public CartaoDeCredito(string cpf, string cvv, string dataDeValidade, string nomeNoCartao, string numeroCartaoVirtual)
         {
             NomeNoCartao = nomeNoCartao;
             NumeroCartaoVirtual = numeroCartaoVirtual;
