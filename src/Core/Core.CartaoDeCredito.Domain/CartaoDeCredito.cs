@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using System;
+using System.Globalization;
 
 namespace Core.CartaoDeCredito.Domain
 {
@@ -25,19 +27,26 @@ namespace Core.CartaoDeCredito.Domain
         public CartaoDeCreditoValidator()
         {
             RuleFor(c => c.NomeNoCartao)
-                .NotEmpty();
+                .NotEmpty()
+                .WithMessage("Nome no Cartão inválido");
 
             RuleFor(c => c.NumeroCartaoVirtual)
-                .NotEmpty();
+                .NotEmpty()
+                .WithMessage("Número do cartão inválido");
 
             RuleFor(c => c.Cvv)
-                .NotEmpty();
+                .NotEmpty()
+                .WithMessage("Número do cvv inválido");
 
             RuleFor(c => c.DataDeValidade)
-                .NotEmpty();
+                .NotEmpty()
+                .WithMessage("Data de validade inválida")
+                .Must(c => DateTime.TryParseExact(c, "MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var result) && result.Date > DateTime.Now.Date)
+                .WithMessage("Cartão vencido");
 
             RuleFor(c => c.Cpf)
-                .NotEmpty();
+                .NotEmpty()
+                .WithMessage("CPF inválido");
         }
     }
 }

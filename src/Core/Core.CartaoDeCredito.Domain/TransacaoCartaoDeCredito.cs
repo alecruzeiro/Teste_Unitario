@@ -37,7 +37,8 @@ namespace Core.CartaoDeCredito.Domain
         public TransacaoCartaoDeCreditoValidator()
         {
             RuleFor(t => t.ValorTotal)
-                .GreaterThan(0);
+                .GreaterThan(0)
+                .WithMessage("Valor total inválido");
 
             RuleFor(c => c.CartaoDeCredito)
                 .SetValidator(new CartaoDeCreditoValidator());

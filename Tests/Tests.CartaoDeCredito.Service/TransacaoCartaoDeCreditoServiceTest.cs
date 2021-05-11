@@ -53,12 +53,13 @@ namespace Tests.CartaoDeCredito.Service
 
         [Theory(DisplayName = "Se os dados do cartão forem inválidos, deve retornar mensagem de erro")]
         [Trait("Categoria", "Cartão de Crédito - Transação")]
-        [InlineData("", "123", "123456789", "12/2026", "Teste Plástico", 100, "'Cpf' deve ser informado.")]
-        [InlineData("01234567890", "", "123456789", "12/2026", "Teste Plástico", 100, "'Cvv' deve ser informado.")]
-        [InlineData("01234567890", "123", "", "12/2026", "Teste Plástico", 100, "'Numero Cartao Virtual' deve ser informado.")]
-        [InlineData("01234567890", "123", "123", "", "Teste Plástico", 100, "'Data De Validade' deve ser informado.")]
-        [InlineData("01234567890", "123", "123", "12/2026", "", 100, "'Nome No Cartao' deve ser informado.")]
-        [InlineData("01234567890", "123", "123", "12/2026", "Teste Plástico", 0, "'Valor Total' deve ser superior a '0'.")]
+        [InlineData("", "123", "123456789", "12/2026", "Teste Plástico", 100, "CPF inválido")]
+        [InlineData("01234567890", "", "123456789", "12/2026", "Teste Plástico", 100, "Número do cvv inválido")]
+        [InlineData("01234567890", "123", "", "12/2026", "Teste Plástico", 100, "Número do cartão inválido")]
+        [InlineData("01234567890", "123", "123", "", "Teste Plástico", 100, "Data de validade inválida")]
+        [InlineData("01234567890", "123", "123", "12/2026", "", 100, "Nome no Cartão inválido")]
+        [InlineData("01234567890", "123", "123", "12/2026", "Teste Plástico", 0, "Valor total inválido")]
+        [InlineData("01234567890", "123", "123", "04/2021", "Teste Plástico", 10, "Cartão vencido")]
         public void TransacaoCartaoDeCredito_TransacaoComDadosInvalidosNoCartao_NaoDeveTransacionar(string cpf, 
             string cvv,
             string numeroCartaoVirtual,
