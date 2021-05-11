@@ -9,7 +9,7 @@ namespace Core.CartaoDeCredito.Domain
         public Guid Id { get; set; }
         public CartaoDeCredito CartaoDeCredito { get; }
         public decimal ValorTotal { get; }
-        public bool TransacaoRealizadaComSucesso { get; private set; }
+        public StatusTransacao StatusTransacao { get; private set; }
         public ValidationResult ValidationResult { get; private set; }
 
         public TransacaoCartaoDeCredito(CartaoDeCredito cartaoDeCredito, decimal valorTotal, Guid? id = default)
@@ -28,7 +28,10 @@ namespace Core.CartaoDeCredito.Domain
 
         public void ResultadoTransacao(bool resultadoTransacao)
         {
-            TransacaoRealizadaComSucesso = resultadoTransacao;
+            if (resultadoTransacao)
+                StatusTransacao = StatusTransacao.Aprovada;
+            else
+                StatusTransacao = StatusTransacao.Reprovada;
         }
     }
 

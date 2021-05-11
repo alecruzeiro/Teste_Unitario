@@ -18,7 +18,7 @@ namespace Core.CartaoDeCredito.Domain
         public string Profissao { get; }
         public decimal Renda { get; }
         public string NomeNoCartao { get; }
-        public TipoCartao? TipoCartaoDisponivel { get; }
+        public Enum TipoCartaoDisponivel { get; }
         public bool EnviadoParaMesaDeCredito { get; private set; }
 
         public SolicitacaoCartaoDeCredito(string nome,
@@ -39,7 +39,7 @@ namespace Core.CartaoDeCredito.Domain
             Id = id ?? Guid.NewGuid();
         }
 
-        private TipoCartao? TipoDeCartaoPorRenda(decimal renda)
+        private Enum TipoDeCartaoPorRenda(decimal renda)
         {
             if (renda >= 2500m)
                 return TipoCartao.Platinum;

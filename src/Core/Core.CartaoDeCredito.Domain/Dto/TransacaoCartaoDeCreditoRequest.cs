@@ -12,13 +12,13 @@ namespace Core.CartaoDeCredito.Domain.Dto
     public class TransacaoCartaoDeCreditoResponse
     {
         public Guid? Id { get; set; }
-        public bool TransacaoRealizadaComSucesso { get; set; }
+        public StatusTransacao StatusTransacao { get; set; }
         public ValidationResult Validation { get; }
 
-        public TransacaoCartaoDeCreditoResponse(Guid? id, bool transacaoRealizadaComSucesso, ValidationResult validation)
+        public TransacaoCartaoDeCreditoResponse(Guid? id, StatusTransacao statusTransacao, ValidationResult validation)
         {
             Id = id;
-            TransacaoRealizadaComSucesso = transacaoRealizadaComSucesso;
+            StatusTransacao = statusTransacao;
             Validation = validation;
         }
 
@@ -47,7 +47,7 @@ namespace Core.CartaoDeCredito.Domain.Dto
 
         public static TransacaoCartaoDeCreditoResponse ToResponse(this TransacaoCartaoDeCredito solicitacaoCartaoDeCredito)
         {
-            return new TransacaoCartaoDeCreditoResponse(solicitacaoCartaoDeCredito.Id, solicitacaoCartaoDeCredito.TransacaoRealizadaComSucesso, solicitacaoCartaoDeCredito.ValidationResult);
+            return new TransacaoCartaoDeCreditoResponse(solicitacaoCartaoDeCredito.Id, solicitacaoCartaoDeCredito.StatusTransacao, solicitacaoCartaoDeCredito.ValidationResult); ;
         }
     }
 }

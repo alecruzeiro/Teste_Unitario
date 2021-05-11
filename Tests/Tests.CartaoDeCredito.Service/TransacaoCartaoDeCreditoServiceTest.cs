@@ -48,7 +48,7 @@ namespace Tests.CartaoDeCredito.Service
 
             //Assert
             _transacaoCartaoDeCreditoRepository.Verify(s => s.Criar(It.IsAny<TransacaoCartaoDeCredito>()), Times.Once);
-            Assert.True(transacaoResponse.TransacaoRealizadaComSucesso);
+            Assert.True(transacaoResponse.StatusTransacao == StatusTransacao.Aprovada);
         }
 
         [Theory(DisplayName = "Se os dados do cartão forem inválidos, deve retornar mensagem de erro")]
@@ -89,7 +89,7 @@ namespace Tests.CartaoDeCredito.Service
 
             //Assert
             _transacaoCartaoDeCreditoRepository.Verify(s => s.Criar(It.IsAny<TransacaoCartaoDeCredito>()), Times.Never);
-            Assert.False(transacaoResponse.TransacaoRealizadaComSucesso);
+            Assert.True(transacaoResponse.StatusTransacao == StatusTransacao.Reprovada);
             Assert.Contains(mensagem, transacaoResponse.Validation.Errors.Select(e => e.ErrorMessage));
         }
     }

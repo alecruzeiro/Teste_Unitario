@@ -5,4 +5,10 @@
         Gold = 1,
         Platinum = 2
     }
+
+    public enum StatusTransacao
+    {
+        Aprovada = 1,
+        Reprovada = 2
+    }
 }

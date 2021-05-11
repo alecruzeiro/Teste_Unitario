@@ -19,14 +19,14 @@
 ## Transacionar com Cartão de Crédito Virtual
 	Eu como cliente desejo fazer uma transação com meu cartão de crédito virtual
 		1 - Ao fazer uma transação em lojas virtuais, deve ser informado Nome no cartão, Número do cartão virtual, CVV, data de validade, CPF e valor total da transação ✔
-			1.1 - Se o número do cartão for inválido, uma mensagem deverá retornar "Número do cartão inválido"
-			1.2 - Se o valor total da transação for menor ou igual a zero, uma mensagem deverá retornar "Valor total inválido"
-			1.3 - Se o cvv do cartão for inválido, uma mensagem deverá retornar "Número do cvv inválido"
-			1.4 - Se a data de validade do cartão for inválida, uma mensagem deverá retornar "Data de validade inválida"
-			1.5 - Se o mês da data de validade e o ano da data de validade forem menores que o mês e ano atual, uma mensagem deverá retornar "cartão vencido"
-			1.6 - Se o nome no cartão for inválido, uma mensagem deverá retornar "Nome no Cartão inválido"
-			1.7 - Se o número do cpf for inválido, uma mensagem deverá retornar "CPF inválido"
-		2 - Caso qualquer problema seja encontrado, além da mensagem de erro deverá retornar o status de compra negada
+			1.1 - Se o número do cartão for inválido, uma mensagem deverá retornar "Número do cartão inválido" ✔
+			1.2 - Se o valor total da transação for menor ou igual a zero, uma mensagem deverá retornar "Valor total inválido" ✔
+			1.3 - Se o cvv do cartão for inválido, uma mensagem deverá retornar "Número do cvv inválido" ✔
+			1.4 - Se a data de validade do cartão for inválida, uma mensagem deverá retornar "Data de validade inválida" ✔
+			1.5 - Se o mês da data de validade e o ano da data de validade forem menores que o mês e ano atual, uma mensagem deverá retornar "cartão vencido" ✔
+			1.6 - Se o nome no cartão for inválido, uma mensagem deverá retornar "Nome no Cartão inválido" ✔
+			1.7 - Se o número do cpf for inválido, uma mensagem deverá retornar "CPF inválido" ✔
+		2 - Caso qualquer problema seja encontrado, além da mensagem de erro deverá retornar o status de compra negada ✔
 		3 - Apenas uma mensagem de erro deverá ser retornada por tentativa
 		4 - Após três tentativas mal sucedidas consecutivas, o cartão virtual deverá ter seu status alterado para bloqueado
 		5 - Caso tudo seja validado com sucesso, a compra deverá retornar o status de compra aprovada
